@@ -1,0 +1,27 @@
+---
+title: "Simple linear regression"
+author: "Hong Hai Nguyen, SuperDataScience"
+date: "5/5/2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r cars}
+summary(dataset)
+```
+
+Real salary of data scientist salaries:
+
+```{r training, echo=FALSE}
+plot(training)
+```
+
+Tested salary of data scientist salaries:
+
+```{r testing, echo=FALSE}
+plot(testing)
+```
+
