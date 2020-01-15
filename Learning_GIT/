@@ -1,0 +1,29 @@
+[33mcommit 53b259b1f883cb97a30795c6d97fb6bcd8963b4c[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m)[m
+Author: honghainguyen777 <n.h.hai2015@gmail.com>
+Date:   Sun Jan 12 21:13:12 2020 +0100
+
+    Release v1.0
+
+[33mcommit 0ca19be61bba3f5203e1abfa1dc86b9a0fab1478[m
+Author: honghainguyen777 <n.h.hai2015@gmail.com>
+Date:   Sun Jan 12 21:09:42 2020 +0100
+
+    Dummy commit 2
+
+[33mcommit 1ca12ca34e56f342a6e8796045f05e76c940a6b7[m
+Author: honghainguyen777 <n.h.hai2015@gmail.com>
+Date:   Sun Jan 12 21:09:01 2020 +0100
+
+    Dummy commit
+
+[33mcommit 42e2f8def9aabbda5903afb984e8c227179cfbc1[m[33m ([m[1;32mmaster[m[33m)[m
+Author: honghainguyen777 <n.h.hai2015@gmail.com>
+Date:   Sun Jan 12 20:49:32 2020 +0100
+
+    Initial commit
+
+[33mcommit 723f2cbacc72e92d2ad5bd12096f682a7d7d07bf[m
+Author: honghainguyen777 <n.h.hai2015@gmail.com>
+Date:   Sun Jan 12 14:43:28 2020 +0100
+
+    added test and test2.txt
