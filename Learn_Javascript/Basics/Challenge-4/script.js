@@ -30,6 +30,6 @@ var JohnInfo = {name: 'John Stark', mass: 70, height: 1.86,
 // compare their BMIs
 var compare = MarkInfo.calBMI() > JohnInfo.calBMI()
     ? console.log(MarkInfo.name + ' has a highest BMI, which is ' + MarkInfo.BMI)
-    : MarkInfo.calBMI() < JohnInfo.calBMI()
+    : MarkInfo.BMI() < JohnInfo.BMI()
     ? console.log(JohnInfo.name + ' has a highest BMI, which is ' + JohnInfo.BMI)
     : console.log(MarkInfo.name + ' and ' + JohnInfo.name + ' have the same BMI of ' + MarkInfo.BMI)
