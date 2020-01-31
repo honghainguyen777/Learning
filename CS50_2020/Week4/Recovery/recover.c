@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//program for recover any removed JPG
 int main(int argc, char *argv[])
 {
     //check one command-line argument
