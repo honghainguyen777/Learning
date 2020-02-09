@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <title>Photograph</title>
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Ubuntu&display=swap" rel="stylesheet">
+
+  <!-- Fontawesome kit -->
+  <script src="https://kit.fontawesome.com/463a0385d1.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <section class="navbar-section" id="bar">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+      <a class="navbar-brand brand" href="index.html"><i><b>Photograph</b></i></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="gallery.html">Gallery</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="me.html">About me</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="rating.html">Rating</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+  </section>
+
+  <section class="rating" id="rate-me">
+    <div class="greeting">
+      <p>Thank you for riewing this boring-website</p>
+
+      <p>Before rating the website, would you mind to let me know your name?</p>
+
+      <form action="Greeting" method="get">
+        Name: <input name="name" type="text" id="name" />
+        <input type="button" value="Submit" onClick="prt()">
+        <p id="sayGreeting"></p>
+      </form>
+      <script>
+        function prt() {
+          let name = document.getElementById("name").value;
+          if (name === '') {
+            name = 'world';
+          }
+          document.getElementById("sayGreeting").innerHTML = "Nice to see you here, " + name + "!";
+        }
+      </script>
+    </div>
+    <div class="rateMe">
+      Now, please give me your review about my website:
+      <form>
+        <button id="1star" onClick="prt2(this.id)" value="1 star">1 star</button>
+        <button id="2stars" onClick="prt2(this.id)" value="2 stars">2 stars</button>
+        <button id="3stars" onClick="prt2(this.id)" value="3 stars">3 stars</button>
+        <button id="4stars" onClick="prt2(this.id)" value="4 stars">4 stars</button>
+        <button id="5stars" onClick="prt2(this.id)" value="5 stars">5 stars</button>
+        <p id="rating"></p>
+        <img src="https://cdn4.iconfinder.com/data/icons/reaction/32/wink-512.png" alt="smiling" height="80" width="80">
+      </form>
+      <script>
+        function prt2(clicked_id) {
+          document.getElementById("rating").innerHTML = "Thank you for rating me " + document.getElementById(clicked_id).value;
+          event.preventDefault();
+        }
+      </script>
+    </div>
+  </section>
+
+  <footer class="footer-section" id="footer">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <i class="fab fa-twitter footer-icon"></i>
+          <i class="fab fa-facebook-f footer-icon"></i>
+          <i class="fab fa-instagram footer-icon"></i>
+          <i class="fas fa-envelope footer-icon"></i>
+        </div>
+        <div class="col-lg-12">
+          <p>© Copyright 2020 Hong Hai</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
