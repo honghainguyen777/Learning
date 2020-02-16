@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Distribution
+{% endblock %}
+
+{% block main %}
+    {% if admin == 1 %}
+    <h4 class="section-heading">Distribution (Admin mode)</h4>
+    <form class="needs-validation" novalidate action="/distribution" method="post">
+        <div class="form-group">
+          <div class="col-md-12 mb-3">
+            <label class="col-md-12" for="validationCustom01"><b>Amount (< {{ total }})</b></label>
+            <input name="amount" type="number" max={{ total }} class="form-control" id="validationCustom01" placeholder="Amount" required>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+          <div class="col-md-12 mb-3">
+            <label class="col-md-12" for="validationCustom02"><b>organization</b></label>
+            <input name="organization" type="text" class="form-control" id="validationCustom02" placeholder="organization name" required>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+          <div class="col-md-12 mb-3">
+            <label class="col-md-12" for="validationCustom03"><b>Category</b></label>
+            <select autofocus class="form-control" name="category" id="validationCustom03" required>
+                <option value="" selected disabled>Category</option>
+                <option value="Environment">Environment</option>
+                <option value="Animals">Animals</option>
+                <option value="People">People</option>
+            </select>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+          <div class="col-md-12 mb-3">
+            <label class="col-md-12" for="validationCustom04"><b>Note</b></label>
+            <textarea name="note" type="text" class="form-control" id="validationCustom04" placeholder="Note" rows="5" max="250" required></textarea>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+            <label class="form-check-label" for="invalidCheck">
+              Agree to terms and conditions
+            </label>
+            <div class="invalid-feedback">
+              You must agree before submitting.
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit form</button>
+    </form>
+    {% endif %}
+
+
+    <h4 class="section-heading" style="margin-top: 50px">Distribution of our organization</h4>
+    <p><i>Here you can where your donations go</i></p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th style="width: 8%">No.</td>
+          <th style="width: 15%">Amount</td>
+          <th style="width: 20%">organization</td>
+          <th style="width: 37%">Remark</td>
+          <th style="width: 20%">Date</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dis in distribution %}
+        <tr>
+          <td>{{ dis["No"] }}</td>
+          <td>{{ dis["amount"] }}</td>
+          <td>{{ dis["organization"] }}</td>
+          <td>{{ dis["note"] }}</td>
+          <td>{{ dis["date"] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+{% endblock %}

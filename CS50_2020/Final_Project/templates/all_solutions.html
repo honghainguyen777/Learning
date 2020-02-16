@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    All Solutions
+{% endblock %}
+
+{% block main %}
+    <section class="all_solutions">
+        <h4 class="section-heading">All solutions</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10%">No.</th>
+                    <th style="width: 20%">Username</th>
+                    <th style="width: 20%">Category</th>
+                    <th style="width: 50%">Your solution</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for solution in solutions %}
+                <tr>
+                    <td>{{ solution["No"] }}</td>
+                    <td>{{ solution["username"] }}</td>
+                    <td>{{ solution["category"] }}</td>
+                    <td>{{ solution["solution"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

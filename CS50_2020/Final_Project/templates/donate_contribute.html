@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Donate Now
+{% endblock %}
+
+{% block main %}
+
+    <section class="donate-now">
+        <h4 class="heading-section">Your donation can help us to make the Earth a better place</h4>
+        <p><i>In order to save the environment, limit polution, and support poor children in third countries, we need your donation</i></p>
+        <form class="needs-validation" novalidate action="/donate" method="post">
+            <div class="form-group">
+                <input class="form-control" name="amount" placeholder="Amount" type="number" min=1 required>
+                <select autofocus class="form-control" name="category" required>
+                    <option value="" selected disabled>Category</option>
+                    <option value="Environment">Environment</option>
+                    <option value="Animals">Animals</option>
+                    <option value="People">People</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="card" placeholder="AMEX/VISA/MC card" type="number" required>
+                <input class="form-control" name="ccv" placeholder="ccv" type="number" min="100" max="999" required>
+            </div>
+            <div class="form-group">
+                <textarea name="note" type="text" class="form-control" placeholder="Give a note to people" rows="5" max="250" required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Donate</button>
+        </form>
+    </section>
+
+    <section class="contribute-now">
+        <h4 class="heading-section">Your solutions can change the world. Do you know?</h4>
+        <form class="needs-validation" novalidate action="/contribute" method="post">
+            <div class="form-group">
+                <select autofocus class="form-control" name="category" required>
+                    <option value="" selected disabled>Category</option>
+                    <option value="Environment">Environment</option>
+                    <option value="Animals">Animals</option>
+                    <option value="People">People</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <textarea name="solution" type="text" class="form-control" placeholder="Give people your precious solution" rows="5" max="250" required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Contribute</button>
+        </form>
+    </section>
+{% endblock %}

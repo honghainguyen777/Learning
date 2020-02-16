@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    All Donations
+{% endblock %}
+
+{% block main %}
+    <section class="all_donations">
+        <h4 class="section-heading">All donations</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 15%">No.</th>
+                    <th style="width: 20%">Username</th>
+                    <th style="width: 15%">Amount</th>
+                    <th style="width: 20%">Category</th>
+                    <th style="width: 30%">Remark</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for donation in donations %}
+                <tr>
+                    <td>{{ donation["No"] }}</td>
+                    <td>{{ donation["username"] }}</td>
+                    <td>{{ donation["amount"] }}</td>
+                    <td>{{ donation["category"] }}</td>
+                    <td>{{ donation["note"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

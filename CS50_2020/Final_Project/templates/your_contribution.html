@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Your Contributions
+{% endblock %}
+
+{% block main %}
+    <section class="your_donations">
+        <h4 class="section-heading">All donations</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10%">No.</th>
+                    <th style="width: 15%">Amount</th>
+                    <th style="width: 20%">Category</th>
+                    <th style="width: 35%">Remark</th>
+                    <th style="width: 20%">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for donation in donations %}
+                <tr>
+                    <td>{{ donation["No"] }}</td>
+                    <td>{{ donation["amount"] }}</td>
+                    <td>{{ donation["category"] }}</td>
+                    <td>{{ donation["note"] }}</td>
+                    <td>{{ donation["date"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="your_solutions">
+        <h4 class="section-heading">All solutions</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 20%">No.</th>
+                    <th style="width: 20%">Category</th>
+                    <th style="width: 60%">Your solution</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solution in solutions %}
+                <tr>
+                    <td>{{ solution["No"] }}</td>
+                    <td>{{ solution["category"] }}</td>
+                    <td>{{ solution["solution"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
