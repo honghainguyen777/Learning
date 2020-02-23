@@ -1,0 +1,124 @@
+body{
+  font-family: "Montserrat";
+}
+
+nav .navbar-brand
+{
+    /* size for brand */
+    font-size: xx-large;
+}
+
+/* colors for brand */
+nav .navbar-brand .blue
+{
+    color: #537fbe;
+}
+nav .navbar-brand .green
+{
+    color: #37bd71;
+}
+
+nav .navbar-brand .red
+{
+    color: #f54263;
+}
+
+nav .navbar-brand .black
+{
+    color: #000000;
+}
+
+
+nav .iconnav {
+  color: #34c9eb;
+}
+
+nav .nav-item {
+    font-size: 1.3rem;
+    margin: auto;
+    color: #537fbe;
+}
+
+nav .subnav {
+  font-size: 1.2rem;
+  color: #02ad10;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+
+.intro-box {
+  text-align: right;
+  margin: 3% 3% auto;
+}
+
+.intro-box1 {
+  text-align: right;
+}
+
+.intro-box2 {
+  text-align: left;
+  margin-top: 8%;
+}
+
+#per-pic {
+  border-radius: 50%;
+  width: 60%;
+  height: auto;
+}
+
+h1 {
+  font-family: "Roboto";
+  color: #037ffc;
+}
+
+.about-image {
+  float:left;
+  width:40%;
+  text-align: center;
+  padding-top: 0;
+}
+
+.about-text {
+  word-wrap: break-word;
+  float: none;
+  padding-top: 5%;
+
+}
+
+.myTable {
+  font-size: 1.2rem;
+}
+
+.aligned {
+  text-align: left;
+}
+
+#input-submit {
+  text-align: center;
+}
+
+.contact-des {
+  text-align: left;
+}
+
+footer {
+  margin-top: 3%;
+}
+
+.footer-link {
+    padding: 0 10px;
+}
+
+/* When screen size change or under 1028px, the CSS inside media query is applied */
+@media (max-width: 1028px) {
+  .intro-box, .intro-box1, .intro-box2 {
+    text-align: center;
+  }
+}
