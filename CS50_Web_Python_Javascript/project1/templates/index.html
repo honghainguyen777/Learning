@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+index
+{% endblock %}
+
+{% block main %}
+<div class="d-flex justify-content-center h-100">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="green">Search your favorite book</h3>
+        </div>
+        <div class="card-body">
+          <form action="/search" method="post">
+            <input class="form-control" type="text" placeholder="Search.." name="search">
+            <div class="input-group-append">
+              <button class="btn btn-search" type="submit"><i class="fa fa-search"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 justify-content-center h-100">
+      <h4>How to search</h4>
+      <h5>Please your book's information:</h5>
+      <ul>
+        <li>Tilte</li>
+        <li>ISBN</li>
+        <li>Author</li>
+        <li>Published year</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

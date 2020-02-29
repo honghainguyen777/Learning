@@ -1,0 +1,28 @@
+nav .navbar-brand
+{
+    font-size: xx-large;
+}
+
+.gray {
+  color: #696969;
+}
+
+.green {
+  color: #00ff00;
+}
+
+.red {
+  color: #ff0000;
+}
+
+.violet {
+  color: #8a2be2;
+}
+
+.yellow {
+  color: #ffff00;
+}
+
+.orange {
+  color: #ffa500;
+}

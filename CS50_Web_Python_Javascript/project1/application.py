@@ -25,7 +25,10 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 @app.route("/")
+@login_required
 def index():
+
+
     return "Project 1: TODO"
 
 
@@ -39,12 +42,14 @@ def register():
         if password != confirmation:
             flash("Passwords do not match")
             return render_template("register.html")
-        elif db.execute("SELECT username FROM users WHERE username=:username", username = username):
+        elif db.execute("SELECT username FROM users WHERE username=:username", username=username):
             flash("Username has already existed!")
             return render_template("register.html")
         hashed_password = generate_password_hash(password)
-        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, hashed_password)
-        session["user_id"] = db.execute("SELECT id FROM users WHERE username = :username", username = username)
+        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)",
+                   username, hashed_password)
+        session["user_id"] = db.execute(
+            "SELECT id FROM users WHERE username = :username", username=username)
 
         flash("Registered!")
         return redirect("/")
@@ -58,7 +63,8 @@ def login():
     if request.method == "POST":
         username = request.form.get("username").lower()
         password = request.form.get("password")
-        user_data = db.execute("SELECT * FROM users WHERE username = :username", username = username)
+        user_data = db.execute(
+            "SELECT * FROM users WHERE username = :username", username=username)
 
         if len(user_data) != 1 or not check_password_hash(user_data[0]["hash"], password):
             flash("Invalid username/password!")
@@ -73,6 +79,7 @@ def login():
 def logout():
     session.clear()
     return redirect("/")
+
 
 @app.route("/change")
 @login_required
@@ -89,14 +96,23 @@ def change():
         if new_password != confirmation:
             flash("Passwords do not match!")
             return render_template("change.html")
-        user = db.execute("SELECT * FROM users WHERR id = :user_id", user_id = user_id)
+        user = db.execute(
+            "SELECT * FROM users WHERR id = :user_id", user_id=user_id)
         if not check_password_hash(user[0][hash], current_password):
             flash("Current password is wrong!")
             return render_template("change.html")
         else:
             hash = generate_password_hash(new_password)
-            db.execute("UPDATE users SET hash=:hash WHERE id=:user_id", hash=hash, user_id=user_id)
+            db.execute("UPDATE users SET hash=:hash WHERE id=:user_id",
+                       hash=hash, user_id=user_id)
             flash("Password has been changed!")
             return redirect("/logout")
     else:
         return render_template("change.html")
+
+@app.route("/search")
+@login_required
+def search():
+    if request.methods == "POST":
+        search_text = request.form.get("search")
+        
