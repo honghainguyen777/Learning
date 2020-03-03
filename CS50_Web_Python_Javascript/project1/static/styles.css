@@ -26,3 +26,11 @@ nav .navbar-brand
 .orange {
   color: #ffa500;
 }
+
+.table-row {
+  border-spacing: 2px;
+}
+
+.table-data {
+  
+}

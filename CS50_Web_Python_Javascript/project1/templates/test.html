@@ -84,15 +84,18 @@
     <div class="d-flex justify-content-center h-100">
       <div class="card">
         <div class="card-header">
-          <h3 class="green">Search your favorite book</h3>
+          <h6 class="green">Can't find "{{ search_text }}" in our database!</h6>
         </div>
         <div class="card-body">
-          <form action="/search" method="post">
-            <div class="row">
-              <input class="form-control col-sm-9" type="text" placeholder="Search.." name="search">
-              <button class="btn btn-search col-sm-3" type="submit"><i class="fa fa-search"></i></button>
-            </div>
-          </form>
+          <h6>Try another alternative search engine:</h6>
+          <div class="row">
+            <form method="post">
+              <input class="form-control" type="text" placeholder="{{ search_text }}" name="search" value="{{ search_text }}">
+              <button class="btn btn-search" type="submit" formaction="/"><i class="fa fa-search"></i> Re-search</button>
+              <button class="btn btn-search" type="submit" formaction="/google_search"><i class="fab fa-google"></i> Google</button>
+              <button class="btn btn-search" type="submit" formaction="/gr_search"><i class="fab fa-goodreads"></i> Goodreads</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

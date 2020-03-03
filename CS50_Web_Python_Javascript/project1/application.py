@@ -110,9 +110,35 @@ def change():
     else:
         return render_template("change.html")
 
-@app.route("/search")
+
+@app.route("/", methods=["POST", "GET"])
 @login_required
 def search():
     if request.methods == "POST":
         search_text = request.form.get("search")
-        
+        in_text = "%" + search_text + "%"
+        data = db.execute("SELECT * FROM books WHERE (title LIKE :in_text) OR (author LIKE :in_text) OR (isbn LIKE :in_text)", in_text = in_text)
+        if len(data) == 1:
+            return render_template("search.html", search_text)
+        else:
+            flash("NOT FOUND!")
+            return render_template("book.html", data)
+    else:
+        return render_template("index.html")
+
+@app.route("/google_search", methods=["POST"])
+@login_required
+def google_search():
+    search_text = request.form.get("search")
+    return redirect("www.google.com/search?q=" + search_text)
+
+@app.route("/gr_search", methods=["POST"])
+@login_required
+def gr_search():
+    search_text = request.form.get("search")
+    return redirect("www.goodreads.com/search?q=" + search_text)
+
+@app.route("/book/<isbn>", methods=["GET"], "POST")
+@login_required
+def book(isbn):
+    

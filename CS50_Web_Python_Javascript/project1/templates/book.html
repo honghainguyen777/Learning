@@ -1,0 +1,61 @@
+{% extends "layout.html"}
+
+{% block title %}
+  Search
+{% endblock %}
+
+{% block main %}
+<div class="d-flex justify-content-center h-100">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="green">Search your favorite book</h3>
+    </div>
+    <div class="card-body">
+      <form action="/search" method="post">
+        <div class="row">
+          <input class="form-control col-sm-9" type="text" placeholder="Search.." name="search">
+          <button class="btn btn-search col-sm-3" type="submit"><i class="fa fa-search"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <h4 class="section-heading">Search results</h4>
+  <table class="table table-striped">
+    <tbody>
+      {% for book  in books %}
+      <tr class="table-row">
+        <div class="row">
+          <td class="col-sm-2"><img src="http://covers.openlibrary.org/b/isbn/{{book["isbn"]}}-S.jpg"></img></td>
+          <td class="col-sm-10">
+            <h6><a href="/book/{{ book["isbn"] }}">{{ book["title"] }}</a></h6>
+            <p>by <b>{{ book["author"] }}</b></p>
+            <p>pulished in {{ book["year"] }}</p>
+            <span>add star here</span>
+            <span>ratings</span>
+            <span>add number of rating</span>
+          </td>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+{% endblock %}
+
+
+
+book page:
+- list of searched books (all books matched the search):
+
+when clicked, go to the details of the books (book/isbn)
+title
+author
+publication year
+ISBN number
+any reviews that users have left on the website
+query API from goodreads to see the average rating and number of ratings
+a button to click on a "want to read"
+submit a review: rate (1-5), text/review (optional), displace if the review has added before with an edit button
+if not add, appear the textarea so the users can add (similar to review, defaul 0 star)
+if possible, where to buy it
+a QAs where users can ask what the book about, how good the book is, including the answer from users
