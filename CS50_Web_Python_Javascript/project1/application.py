@@ -138,7 +138,21 @@ def gr_search():
     search_text = request.form.get("search")
     return redirect("www.goodreads.com/search?q=" + search_text)
 
-@app.route("/book/<isbn>", methods=["GET"], "POST")
+@app.route("/book/<isbn>", methods=["GET", "POST")
 @login_required
 def book(isbn):
-    
+    user_id = session["user_id"]
+    username = db.execute("SELECT username FROM users WHERE user_id = :user_id", user_id = user_id)["username"]
+    book = db.execute("SELECT * FROM books WHERE isbn = :isbn", isbn = isbn)
+    reviews = db.execute("SELECT * FROM reviews WHERE book_isbn=:isbn SORT BY date", isbn = isbn)
+    QAs = db.execute("SELECT * FROM QAs WHERE book_isbn=:isbn SORT BY date", isbn = isbn)
+    responses = db.execute("SELECT * FROM responses WHERE book_isbn=:isbn SORT BY date", isbn = isbn)
+    user_rating = db.execute("SELECT * FROM reviews WHERE book_isbn=:isbn AND username = :username", isbn = isbn, username = username)
+    user_review = db.execute("SELECT * FROM QAs WHERE book_isbn=:isbn AND username = :username", isbn = isbn, username = username)
+    user_response = db.execute("SELECT * FROM responses WHERE book_isbn=:isbn AND username = :username", isbn = isbn, username = username)
+    if request.method = "GET":
+        if user_rating["rating"] == NULL:
+
+        return render_template("", book, reviews, QAs, responses, user_rating, user_review, user_response)
+
+        # check if user responses, review and rating are not NULL either here or in html with jinja2

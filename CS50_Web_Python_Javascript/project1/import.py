@@ -16,11 +16,11 @@ db.execute("CREATE TABLE users (id SERIAL PRIMARY KEY, username VARCHAR NOT NULL
 
 db.execute("CREATE TABLE books(title VARCHAR NOT NULL, author VARCHAR NOT NULL, year INTEGER NOT NULL, isbn VARCHAR UNIQUE NOT NULL, review_count INTEGER, average_score NUMERIC)")
 
-db.execute("CREATE TABLE reviews(user_id INTEGER NOT NULL, book_isbn VARCHAR NOT NULL, rates INTEGER NOT NULL, review VARCHAR, recorded date NOT NULL DEFAULT CURRENT_DATE)")
+db.execute("CREATE TABLE reviews(username VARCHAR NOT NULL, book_isbn VARCHAR NOT NULL, rates INTEGER NOT NULL, review VARCHAR, recorded date NOT NULL DEFAULT CURRENT_DATE)")
 
-db.execute("CREATE TABLE QAs( user_id INTEGER NOT NULL, book_isbn VARCHAR NOT NULL, qa_question VARCHAR NOT NULL, recorded date NOT NULL DEFAULT CURRENT_DATE)")
+db.execute("CREATE TABLE QAs(username VARCHAR NOT NULL, book_isbn VARCHAR NOT NULL, qa_question VARCHAR NOT NULL, recorded date NOT NULL DEFAULT CURRENT_DATE)")
 
-db.execute("CREATE TABLE responses(user_id INTEGER NOT NULL, book_isbn VARCHAR NOT NULL, qa_id VARCHAR NOT NULL, response VARCHAR NOT NULL, recorded date NOT NULL DEFAULT CURRENT_DATE)")
+db.execute("CREATE TABLE responses(username VARCHAR NOT NULL, book_isbn VARCHAR NOT NULL, qa_id VARCHAR NOT NULL, response VARCHAR NOT NULL, recorded date NOT NULL DEFAULT CURRENT_DATE)")
 
 # make something where user can ask about the book and get answer from other
 
