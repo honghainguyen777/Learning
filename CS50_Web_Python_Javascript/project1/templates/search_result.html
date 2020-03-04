@@ -1,0 +1,41 @@
+{% extends "layout.html"}
+
+{% block title %}
+  Results
+{% endblock %}
+
+{% block main %}
+<div class="d-flex justify-content-center h-100">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="green">Search your favorite book</h3>
+    </div>
+    <div class="card-body">
+      <form action="/search" method="post">
+        <div class="row">
+          <input class="form-control col-sm-9" type="text" placeholder="Search.." name="search">
+          <button class="btn btn-search col-sm-3" type="submit"><i class="fa fa-search"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<h4 class="section-heading">Search results</h4>
+<table class="table table-striped">
+  <tbody>
+    {% for book  in data %}
+    <tr class="table-row">
+      <div class="row">
+        <td class="col-sm-2"><img src="http://covers.openlibrary.org/b/isbn/{{book["isbn"]}}-S.jpg"></img></td>
+        <td class="col-sm-10">
+          <h6><a href="/book/{{ book["isbn"] }}">{{ book["title"] }}</a> ({{ book["year"] }})</h6>
+          <p>by <b>{{ book["author"] }}</b></p>
+          <p>{{ book["average_rating" }} average rating - {{ book["ratings_count"] }} ratings - {{ book["review_count"] }} reviews</p>
+        </td>
+      </div>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

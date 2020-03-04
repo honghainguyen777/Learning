@@ -115,14 +115,18 @@ def change():
 @login_required
 def search():
     if request.methods == "POST":
+        if not request.form.get("search"):
+            flash("You must provide isbn, title, or author in the search field")
+            return render_template("index.html")
+
         search_text = request.form.get("search")
         in_text = "%" + search_text + "%"
         data = db.execute("SELECT * FROM books WHERE (title LIKE :in_text) OR (author LIKE :in_text) OR (isbn LIKE :in_text)", in_text = in_text)
         if len(data) == 1:
+            flash("NOT FOUND IN OUR DATABASE")
             return render_template("search.html", search_text)
         else:
-            flash("NOT FOUND!")
-            return render_template("book.html", data)
+            return render_template("search_results.html", data=data, search_text = search_text)
     else:
         return render_template("index.html")
 
@@ -138,7 +142,7 @@ def gr_search():
     search_text = request.form.get("search")
     return redirect("www.goodreads.com/search?q=" + search_text)
 
-@app.route("/book/<isbn>", methods=["GET", "POST")
+@app.route("/book/<str:isbn>", methods=["GET", "POST")
 @login_required
 def book(isbn):
     user_id = session["user_id"]
@@ -147,12 +151,45 @@ def book(isbn):
     reviews = db.execute("SELECT * FROM reviews WHERE book_isbn=:isbn SORT BY date", isbn = isbn)
     QAs = db.execute("SELECT * FROM QAs WHERE book_isbn=:isbn SORT BY date", isbn = isbn)
     responses = db.execute("SELECT * FROM responses WHERE book_isbn=:isbn SORT BY date", isbn = isbn)
-    user_rating = db.execute("SELECT * FROM reviews WHERE book_isbn=:isbn AND username = :username", isbn = isbn, username = username)
-    user_review = db.execute("SELECT * FROM QAs WHERE book_isbn=:isbn AND username = :username", isbn = isbn, username = username)
+    user_review = db.execute("SELECT * FROM reviews WHERE book_isbn=:isbn AND username = :username", isbn = isbn, username = username)
+    user_QA = db.execute("SELECT * FROM QAs WHERE book_isbn=:isbn AND username = :username", isbn = isbn, username = username)
     user_response = db.execute("SELECT * FROM responses WHERE book_isbn=:isbn AND username = :username", isbn = isbn, username = username)
     if request.method = "GET":
-        if user_rating["rating"] == NULL:
+        # query for goodreads book's data
+        res_rc = request.get("https://www.goodreads.com/book/review_counts.json", params={"key": apikey, "isbns": isbn})
+        book_rc = res.json()["books"][0]
+        """JSON will be like:
+        {"id":50019613,"isbn":"0441172717","isbn13":"9780441172719","ratings_count":241,
+        "reviews_count":614,"text_reviews_count":13,"work_ratings_count":674280,"work_reviews_count":1163860,
+        "work_text_reviews_count":18697,"average_rating":"4.22"}
+        call book_rc["reviews_count"] or book_rc["average_rating"] or book_rc["work_ratings_count"] for reviews_count, average_rating, or ratings_count
+        """
 
-        return render_template("", book, reviews, QAs, responses, user_rating, user_review, user_response)
+
+        return render_template("book.html", book, reviews, QAs, responses, user_rating, user_review, user_response, book_rc)
 
         # check if user responses, review and rating are not NULL either here or in html with jinja2
+
+@app.route("/rating", methods=["POST"])
+@login_required
+def rating:
+    user_id = session["user_id"]
+    username = db.execute("SELECT username FROM users WHERE user_id = :user_id", user_id = user_id)["username"]
+    isbn = request.form.get("isbn")
+    user_rating = request.form.get("rating")
+    db.execute("UPDATE reviews SET rating=:rating WHERE username=:username AND isbn=:isbn", rating=user_rating, username=username, isbn=isbn")
+    flash("Thank you for your rating!")
+    return render_template("book.html")
+
+@app.route("/review", methods=["POST"])
+@login_required
+def review:
+    user_id = session["user_id"]
+    username = db.execute("SELECT username FROM users WHERE user_id = :user_id", user_id = user_id)["username"]
+    isbn = request.form.get("isbn")
+    if request.form.get("rating"):
+        db.execute("UPDATE reviews SET rating=:rating WHERE username=:username AND isbn=:isbn", rating=request.form.get("rating"), username=username, isbn=isbn")
+    if request.form.get("review"):
+        bb.execute("UPDATE reviews SET review=:review WHERE username=:username AND isbn=:isbn", review=request.form.get("review"), username=username, isbn=isbn")
+    flash("Thank you for your review!")
+    return render_template("book.html")
