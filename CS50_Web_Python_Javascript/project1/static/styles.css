@@ -7,8 +7,14 @@ nav .navbar-brand
   color: #696969;
 }
 
+
+.lightblue {
+  color: #563d7c;
+}
+
+
 .green {
-  color: #00ff00;
+  color: #03fc6b;
 }
 
 .red {
@@ -27,10 +33,33 @@ nav .navbar-brand
   color: #ffa500;
 }
 
+.lightyellow {
+  color: #cce320;
+}
+
 .table-row {
   border-spacing: 2px;
 }
 
-.table-data {
-  
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+.qsmall-book {
+
+}
+
+.footer-link {
+    padding: 0 10px;
+}
+
+@media screen and (max-width:600px) {
+  .qsmall-book {
+    text-align: center;
+  }
 }
