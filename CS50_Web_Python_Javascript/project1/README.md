@@ -18,19 +18,19 @@
 ### Register page
 ![](https://i.imgur.com/f56rn3X.jpg)
 
-### search result page
+### Search result page
 ![](https://i.imgur.com/8fdo2nl.jpg)
 
-### book page
-![(https://i.imgur.com/HTTXT7s.jpg)
+### Book page
+![](https://i.imgur.com/HTTXT7s.jpg)
 
-### review features
+### Review features
 ![](https://i.imgur.com/Jpkl8X7.jpg)
 
-### question and answer features
+### Question and answer features
 ![](https://i.imgur.com/jlOXMm3.jpg)
 
-### changing password page
+### Changing password page
 ![](https://i.imgur.com/jjs9K9i.jpg)
 
 ### Request for book API
