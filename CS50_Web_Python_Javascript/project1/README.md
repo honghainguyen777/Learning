@@ -13,25 +13,25 @@
 ## Features of the app
 
 ### Login page
-![] (https://i.imgur.com/XbAHZY1.jpg)
+![](https://i.imgur.com/XbAHZY1.jpg)
 
 ### Register page
-![] (https://i.imgur.com/f56rn3X.jpg)
+![](https://i.imgur.com/f56rn3X.jpg)
 
 ### search result page
-![] (https://i.imgur.com/8fdo2nl.jpg)
+![](https://i.imgur.com/8fdo2nl.jpg)
 
 ### book page
-![] (https://i.imgur.com/HTTXT7s.jpg)
+![(https://i.imgur.com/HTTXT7s.jpg)
 
 ### review features
-![] (https://i.imgur.com/Jpkl8X7.jpg)
+![](https://i.imgur.com/Jpkl8X7.jpg)
 
 ### question and answer features
-![] (https://i.imgur.com/jlOXMm3.jpg)
+![](https://i.imgur.com/jlOXMm3.jpg)
 
 ### changing password page
-![] (https://i.imgur.com/jjs9K9i.jpg)
+![](https://i.imgur.com/jjs9K9i.jpg)
 
 ### Request for book API
 https://bookquery.herokuaapp.com/api/ + book-ISBN
