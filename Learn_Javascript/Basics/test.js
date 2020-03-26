@@ -26,68 +26,6 @@ Mark likes to tip 20% of the bill when the bill is less than $100, 10% when the 
 GOOD LUCK 😀
 */
 
-// Create an array of all bills for John
-JohnExp = {
-  name: 'John',
-  bills: [124, 268, 180, 42],
-  tipCal: function() {
-    this.tips = [];
-    this.finalAmounts = [];
-    for (i = 0; i < this.bills.length; i++) {
-      var percentage;
-      var bill = this.bills[i]
-      bill < 50 ? percentage = 20 :
-        bill > 200 ? percentage = 10 :
-        percentage = 15
-      this.tips.push(bill * percentage / 100);
-      this.finalAmounts.push(bill + bill * percentage / 100)
-    }
-  }
-}
-
-// Create an array of all bills for Mark
-MarkExp = {
-  name: 'Mark',
-  bills: [77, 375, 110, 45],
-  tipCal: function() {
-    this.tips = [];
-    this.finalAmounts = [];
-    for (i = 0; i < this.bills.length; i++) {
-      var percentage;
-      var bill = this.bills[i]
-      bill < 50 ? percentage = 20 :
-        bill > 200 ? percentage = 25 :
-        percentage = 10
-      this.tips.push(bill * percentage / 100);
-      this.finalAmounts.push(bill + bill * percentage / 100)
-    }
-  }
-}
-
-// create a function to calculate average amout of tip
-var tipAverCal = function(tips) {
-  var totalTip = 0;
-  for (i = 0; i < tips.length; i++) {
-    totalTip = totalTip + tips[i]
-  }
-  return totalTip / tips.length;
-}
-
-// Perform the tipCal
-JohnExp.tipCal();
-MarkExp.tipCal();
-
-// which family has paid the highest tips on average
-JohnTipAver = tipAverCal(JohnExp.tips);
-MarkTipAver = tipAverCal(MarkExp.tips);
-var compare = JohnTipAver > MarkTipAver ?
-  console.log(JohnExp.name + ' has paid the highest tips of $' + JohnTipAver + ' on average') :
-  JohnTipAver < MarkTipAver ?
-  console.log(MarkExp.name + ' has paid the highest tips of $' + MarkTipAver + ' on average') :
-  console.log('Both families have spent the same amout on tips of $' + JohnTipAver)
-
-
-/* Long code:
 var john = {
   bills: [124, 48, 268, 180, 42],
   tips: [],
@@ -120,9 +58,9 @@ var mark = {
   final: [],
   calcTip: function() {
     for (var i = 0; i < this.bills.length; i++) {
-      if (this.bills[i] < 50) {
+      if (this.bills[i] < 100) {
         this.tips.push(this.bills[i] * 0.2);
-      } else if (this.bills[i] > 200) {
+      } else if (this.bills[i] > 300) {
         this.tips.push(this.bills[i] * 0.25);
       } else {
         this.tips.push(this.bills[i] * 0.1);
@@ -157,5 +95,3 @@ if (johnTip > markTip) {
 } else {
   console.log('Both Mark and Mark families paid the same tip of ' + markTip + ' in average');
 }
-
-*/
