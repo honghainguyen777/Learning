@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a3020c0a-2f66-46a8-ada8-03e78baa3fa2" name="Default Changelist" comment="" />
+    <list default="true" id="f014eb6d-93bf-41c7-acc2-fb10a584ac5b" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectId" id="1aEC9CH58NUJqPuQu3VAUQxEvsy" />
+  <component name="ProjectId" id="1aEFL9hz3X5fEstUjnykQJC7Ezt" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -20,7 +20,7 @@
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="com.company.Main" />
-      <module name="SharedDigit" />
+      <module name="LastDigitChecker" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -39,12 +39,12 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a3020c0a-2f66-46a8-ada8-03e78baa3fa2" name="Default Changelist" comment="" />
-      <created>1586291212815</created>
+      <changelist id="f014eb6d-93bf-41c7-acc2-fb10a584ac5b" name="Default Changelist" comment="" />
+      <created>1586292787620</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1586291212815</updated>
-      <workItem from="1586291214060" duration="1522000" />
+      <updated>1586292787620</updated>
+      <workItem from="1586292788858" duration="743000" />
     </task>
     <servers />
   </component>
@@ -52,21 +52,21 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="735" height="279" key="GridCell.Tab.0.bottom" timestamp="1586292736760">
+    <state width="735" height="279" key="GridCell.Tab.0.bottom" timestamp="1586293532111">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="735" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586292736760" />
-    <state width="735" height="279" key="GridCell.Tab.0.center" timestamp="1586292736760">
+    <state width="735" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586293532111" />
+    <state width="735" height="279" key="GridCell.Tab.0.center" timestamp="1586293532111">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="735" height="279" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586292736760" />
-    <state width="735" height="279" key="GridCell.Tab.0.left" timestamp="1586292736760">
+    <state width="735" height="279" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586293532111" />
+    <state width="735" height="279" key="GridCell.Tab.0.left" timestamp="1586293532111">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="735" height="279" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586292736760" />
-    <state width="735" height="279" key="GridCell.Tab.0.right" timestamp="1586292736760">
+    <state width="735" height="279" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586293532111" />
+    <state width="735" height="279" key="GridCell.Tab.0.right" timestamp="1586293532111">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="735" height="279" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586292736760" />
+    <state width="735" height="279" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586293532111" />
   </component>
 </project>
