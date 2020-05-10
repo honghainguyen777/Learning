@@ -1,2 +1,6 @@
 Flask
 Flask-SocketIO
+Flask-Session
+requests
+werkzeug==0.16.0
+datetime

@@ -5,6 +5,139 @@
 {% endblock %}
 
 {% block main %}
+
+<div class="container">
+    <header class="header">
+        <h1>Header here</h1>
+    </header>
+
+    <div class="channels">
+      <div class="channel_header">
+        <h4>Channels</h4>
+      </div>
+        <ul class="channel_list">
+            <!-- List of all channel, make a loop here, make sure the file size of html = windown -->
+            <li>
+                <a class="results__link" href="#76767">
+                    <figure class="results__fig">
+                        <img src="img/test-2.jpg" alt="Test">
+                    </figure>
+                    <div class="results__data">
+                        <h4 class="results__name">Pasta Salad with ...</h4>
+                        <p class="results__author">Spicy Perspective</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a class="results__link" href="#76767">
+                    <figure class="results__fig">
+                        <img src="img/test-2.jpg" alt="Test">
+                    </figure>
+                    <div class="results__data">
+                        <h4 class="results__name">Pasta Salad with ...</h4>
+                        <p class="results__author">Spicy Perspective</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a class="results__link" href="#76767">
+                    <figure class="results__fig">
+                        <img src="img/test-2.jpg" alt="Test">
+                    </figure>
+                    <div class="results__data">
+                        <h4 class="results__name">Pasta Salad with ...</h4>
+                        <p class="results__author">Spicy Perspective</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="chatting">
+      <header class="chat__header">
+          <h2 id="channel_name">{{ channel }}</h2>
+          <h2 id="username">{{ username }}</h2>
+      </header>
+      <div class="chatingArea scroll" id="scroll_default">
+        <ul class="message_list">
+
+
+          <!--
+          <li>
+            <div class="row">
+              <div class="col-lg-1 pt-3">
+                <figure class="chatting__fig">
+                      <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg">
+                </figure>
+                <h4 class="ml-3"><b>Weed</b></h4>
+              </div>
+              <div class="col-lg-10 pt-2">
+                <div class="message__data">
+                    <h4 class="results__name">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauri</h4>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="row">
+              <div class="col-lg-1 pt-3">
+                <figure class="chatting__fig">
+                      <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg">
+                </figure>
+                <h4 class="ml-3"><b>Weed</b></h4>
+              </div>
+              <div class="col-lg-10 pt-2">
+                <div class="message__data">
+                    <h4 class="results__name">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauri</h4>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="row">
+              <div class="col-lg-1 pt-3">
+                <figure class="chatting__fig">
+                      <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg">
+                </figure>
+                <h4 class="ml-3"><b>Weed</b></h4>
+              </div>
+              <div class="col-lg-10 pt-2">
+                <div class="message__data">
+                    <h4 class="results__name">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauri</h4>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="row">
+              <div class="col-lg-1 pt-3">
+                <figure class="chatting__fig">
+                      <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg">
+                </figure>
+                <h4 class="ml-3"><b>Weed</b></h4>
+              </div>
+              <div class="col-lg-10 pt-2">
+                <div class="message__data">
+                    <h4 class="results__name">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauri</h4>
+                </div>
+              </div>
+            </div>
+          </li> -->
+        </ul>
+      </div>
+      <div class="typing__Box">
+        <div class="input-group">
+          <textarea name="" class="form-control type_msg" placeholder="Type a message..." id="message"></textarea>
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary" id = "send_message">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+  <!--
   <div class="container-fluid h-100">
     <div class="row justify-content-center h-100">
       <div class="card">
@@ -47,4 +180,5 @@
       </div>
     </div>
   </div>
+-->
 {% endblock %}

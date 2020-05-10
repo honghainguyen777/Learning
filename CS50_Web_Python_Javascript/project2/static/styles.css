@@ -1,14 +1,28 @@
-body {
-  height: 100% margin: 0;
-  background: #7F7FD5;
-  background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-  background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-}
+* {
+  margin: 0;
+  padding: 0; }
 
-.card {
-  height: 500px;
-  border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.4) !important;
+*,
+*::before,
+*::after {
+  box-sizing: inherit; }
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; }
+  @media only screen and (max-width: 68.75em) {
+    html {
+      font-size: 50%; } }
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #655A56;
+  background-image: linear-gradient(to right bottom, #91EAE4, #86A8E7);
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: calc(100vh - 2 * 4vw);
 }
 
 nav .navbar-brand {
@@ -37,68 +51,129 @@ nav .navbar-brand .green {
   font-size: 1.2rem;
 }
 
-main .form-control {
-  /* center form controls */
-  display: inline-block;
-  /* override Bootstrap's 100% width for form controls */
-  width: auto;
+
+.container {
+  max-width: 100rem;;
+  margin: 1% auto;
+  height: 86vh;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2rem 6rem 0.5rem rgba(101, 90, 86, 0.2);
+  display: grid;
+  grid-template-rows: 10% 90%;
+  grid-template-columns: 15% 85%;
+  grid-template-areas: "head head" "channel chatroom";
+  border: 1px solid #dfdfdf;
+}
+@media only screen and (max-width: 68.75em) {
+  .container {
+    width: 96%;
+    margin: 0 2% 0 2%;
+    border-radius: 0;
+  }
 }
 
-main {
-  /* scroll horizontally as needed */
-  overflow-x: auto;
-  /* center contents */
-  text-align: center;
+/* For header grid */
+.container > .header {
+  grid-area: head;
+  background-color: #F9F5F3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.center {
-  text-align: center;
+/*
+.type_msg {
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  font-size: 1.7rem;
+  width: 30rem;
+}
+*/
+
+/* For channel grid */
+.container > .channels {
+  grid-area: channel;
+  background-color: lightblue;
 }
 
-main img {
-  /* constrain images on small screens */
-  max-width: 100%;
+.channel_header {
+  grid-area: channel;
+  width: 100%;
+  height: 10%;
+  background-color: blue;
+}
+/* each item has a full width of the channel item and has height of some persent
+make sure if the user shrink there window, then the number of displace channel also reduce
+or we can make a scrollable in the channel */
+.channel_item {
+  grid-area: channel;
+}
+.results__btn--prev {
+  float: left;
+  flex-direction: row-reverse;
 }
 
-table {
-  table-layout: fixed;
+.results__btn--next {
+  float: right;
 }
 
-td {
-  word-wrap: break-word
+/* For Chatting grid */
+.container > .chatting {
+  grid-area: chatroom;
+  height: 100%;
+  background-color: lightgreen;
+  display: grid;
+  grid-template-rows: 10% 80% 13%;
+  grid-template-areas: "chattingHead" "chatingArea" "typingMessage";
 }
 
-h5 {
-  color: #1040eb;
+
+.chat__header {
+  grid-area: chattingHead;
+  background-color: red;
 }
 
-h6 {
-  text-align: justify;
-  text-justify: auto;
+.chatingArea {
+  grid-area: chatingArea;
+  padding: 5px;
 }
 
-.section-heading {
-  color: #038cfc;
+.typing__Box {
+  grid-area: typingMessage;
+  background-color: yellow;
+  padding: 5px;
 }
 
-.Animals, .People, .contribute-now, .your_solutions {
-  margin-top: 50px;
+.chatting__fig img {
+  border-radius: 50%;
+  height: 4rem;
+  margin: 10px 10px 0 10px;
+  /*
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 20px;
+  float: left;*/
 }
 
-.carousel-caption {
-  max-width: 80%;
-  width: 80%;
-  background-color: rgba(255, 255, 255, 0.7);
-  left: 10%;
-  color: black;
+ul {
+  position: relative;
+  list-style: none;
+}
+
+.scroll {
+  overflow-x: hidden;
+  text-align:justify;
+}
+
+
+footer {
+  height: 4vh;
 }
 
 .footer-link {
   padding: 0 10px;
-}
-
-@media (max-width:600px) {
-  .table {
-    font-size: 1.5vw;
-  }
 }

@@ -14,8 +14,12 @@
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
-  <!--
+  <link href="/static/styles.css" rel="stylesheet"/>
+
+  <!-- Socket IO JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+
+  <!--<link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
   <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
   -->
@@ -29,7 +33,7 @@
   <link rel="icon" href="static/images/favicon.JPG">
 </head>
 
-<body id="css_custom">
+<body>
   <!-- Navbar -->
   <nav class="navbar navbar-expand-md navbar-light bg-light border">
     <a class="navbar-brand" href="/"><i class="fas fa-book-reader fa-lg green"></i><span class="gray"> Book</span><span class="green">Q</span><span class="red">u</span><span class="violet">e</span><span class="lightyellow">r</span><span
@@ -67,9 +71,7 @@
   {% endif %}
 
   <!-- Main block here -->
-  <main class="container p-3">
-    {% block main %}{% endblock %}
-  </main>
+  {% block main %}{% endblock %}
 
   <!-- footer here -->
   <footer class="small text-center text-muted mt-5 mb-5">
