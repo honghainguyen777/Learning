@@ -7,17 +7,17 @@
 {% block main %}
 <div class="d-flex justify-content-center h-100">
   {% if not username %}
-  <div class="card">
+  <div class="card m-5" id="card_css" style="width: 60%">
     <div class="card-header" style="text-align: center;">
-      <h3>Enter your name</h3>
+      <h2><b>Enter a display name to start</b></h2>
       <div class="card-body">
         <form action="/register" method="post">
           <div class="row form-group">
             <div class="col-sm-9">
-              <input class="form-control ml-2 w-100 input-text" type="text" placeholder="Enter your name" name="username" minlength="3" maxlength="10" required></input>
+              <input class="form-control ml-2 w-100 input-text" type="text" placeholder="Choose an unique name..." name="username" minlength="3" maxlength="10" required style="font-size: medium;"></input>
             </div>
             <div class="col-sm-3">
-              <button class="btn btn-info w-100 submit" type="submit"><i class="fa fa-search"></i></button>
+              <button class="btn btn-info w-100 submit" type="submit"><i class="far fa-play-circle fa-3x"></i></button>
             </div>
           </div>
         </form>

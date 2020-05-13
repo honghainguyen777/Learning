@@ -1,184 +1,84 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-  {{ channel }}
+{{ channel }}
 {% endblock %}
 
 {% block main %}
 
 <div class="container">
-    <header class="header">
-        <h1>Header here</h1>
-    </header>
-
-    <div class="channels">
-      <div class="channel_header">
-        <h4>Channels</h4>
-      </div>
-        <ul class="channel_list">
-            <!-- List of all channel, make a loop here, make sure the file size of html = windown -->
-            <li>
-                <a class="results__link" href="#76767">
-                    <figure class="results__fig">
-                        <img src="img/test-2.jpg" alt="Test">
-                    </figure>
-                    <div class="results__data">
-                        <h4 class="results__name">Pasta Salad with ...</h4>
-                        <p class="results__author">Spicy Perspective</p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a class="results__link" href="#76767">
-                    <figure class="results__fig">
-                        <img src="img/test-2.jpg" alt="Test">
-                    </figure>
-                    <div class="results__data">
-                        <h4 class="results__name">Pasta Salad with ...</h4>
-                        <p class="results__author">Spicy Perspective</p>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a class="results__link" href="#76767">
-                    <figure class="results__fig">
-                        <img src="img/test-2.jpg" alt="Test">
-                    </figure>
-                    <div class="results__data">
-                        <h4 class="results__name">Pasta Salad with ...</h4>
-                        <p class="results__author">Spicy Perspective</p>
-                    </div>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="chatting">
-      <header class="chat__header">
-          <h2 id="channel_name">{{ channel }}</h2>
-          <h2 id="username">{{ username }}</h2>
-      </header>
-      <div class="chatingArea scroll" id="scroll_default">
-        <ul class="message_list">
-
-
-          <!--
-          <li>
-            <div class="row">
-              <div class="col-lg-1 pt-3">
-                <figure class="chatting__fig">
-                      <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg">
-                </figure>
-                <h4 class="ml-3"><b>Weed</b></h4>
-              </div>
-              <div class="col-lg-10 pt-2">
-                <div class="message__data">
-                    <h4 class="results__name">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauri</h4>
-                </div>
-              </div>
-            </div>
-          </li>
-
-          <li>
-            <div class="row">
-              <div class="col-lg-1 pt-3">
-                <figure class="chatting__fig">
-                      <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg">
-                </figure>
-                <h4 class="ml-3"><b>Weed</b></h4>
-              </div>
-              <div class="col-lg-10 pt-2">
-                <div class="message__data">
-                    <h4 class="results__name">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauri</h4>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="row">
-              <div class="col-lg-1 pt-3">
-                <figure class="chatting__fig">
-                      <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg">
-                </figure>
-                <h4 class="ml-3"><b>Weed</b></h4>
-              </div>
-              <div class="col-lg-10 pt-2">
-                <div class="message__data">
-                    <h4 class="results__name">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauri</h4>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="row">
-              <div class="col-lg-1 pt-3">
-                <figure class="chatting__fig">
-                      <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg">
-                </figure>
-                <h4 class="ml-3"><b>Weed</b></h4>
-              </div>
-              <div class="col-lg-10 pt-2">
-                <div class="message__data">
-                    <h4 class="results__name">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauri</h4>
-                </div>
-              </div>
-            </div>
-          </li> -->
-        </ul>
-      </div>
-      <div class="typing__Box">
-        <div class="input-group">
-          <textarea name="" class="form-control type_msg" placeholder="Type a message..." id="message"></textarea>
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-primary" id = "send_message">Submit</button>
-          </div>
-        </div>
-      </div>
-    </div>
-</div>
-
   <!--
-  <div class="container-fluid h-100">
-    <div class="row justify-content-center h-100">
-      <div class="card">
-        <div class="card-header msg_head">
-          <h3>{{ channel }}</h3>
-        </div>
-        <div class="card-body msg_body">
-          {% for message in messages %}
-          {% if username == message[0] %}
-          <div class="d-flex justify-content-end mb-4">
-            <div class="img_cont_msg">
-							<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
-						</div>
-            <div class="msg_container">
-              <p>{{ message[1] }}</p>
-              <span class="msg_time">{{ message[2] }}</span>
-            </div>
+  <header class="header">
+    <h1>Header here</h1>
+  </header>
+-->
+
+  <div class="channels">
+    <div class="channel_header">
+      <span class="ch_header"><b>CHANNELS</b></span>
+    </div>
+    <ul class="channel_list">
+      <!-- List of all channel, make a loop here, make sure the file size of html = windown
+      This will display the number of people following the channel (followers)-->
+      {% for item in allChannels %}
+      <li>
+        <a class="channel_link" id="channel_{{ item }}" data-channel="{{item}}">
+          <span class="link_icon" ><i class="fab fa-joomla fa-2x"></i></span>
+          <div class="results__data">
+            <span class="results__name"><b>{{ item }}</b></span>
           </div>
-          {% else %}
-          <div class="d-flex justify-content-start mb-4">
-            <div class="img_cont_msg">
-							<img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
-						</div>
-            <div class="msg_container">
-              <p>{{ message[1] }}</p>
-              <span class="msg_time">{{ message[2] }}</span>
-            </div>
-          </div>
-          {% endif %}
-          {% endfor %}
-        </div>
-        <div class="card-footer">
-          <div class="input-group">
-            <textarea name="" class="form-control type_msg" placeholder="Type a message..." id="message"></textarea>
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+          <hr>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="chatting">
+    <header class="chat__header">
+      <div class="row justify-content-center pt-4 m-0 h-100">
+        <div class="col-md-3 header" id="username">{{ username }}</div>
+        <div class="col-md-3 header" id="new_channel">CREATE</div>
+        {% if channel != "create" %}
+        <div class="col-md-3 header" id="channel_name">{{ channel }}</div>
+        <div class="col-md-3 header" id="leave_channel">LEAVE</div>
+        {% endif %}
+      </div>
+    </header>
+    <div class="chatingArea scroll" id="scroll_default" data-value="{{ check_channel }}">
+      <ul class="message_list">
+        <!-- all messages will be displayed here -->
+      </ul>
+      <div class="card" id="card_css">
+        <div class="card-header" style="text-align: center;">
+          <h2><b>Create a channel</b></h2>
+          <div class="card-body">
+            <form action="/create" method="post">
+              <div class="row form-group">
+                <div class="col-sm-9">
+                  <input class="form-control ml-2 w-100 input-text" type="text" placeholder="Type a name..." name="channel_name" minlength="3" maxlength="10" required style="font-size: medium;"></input>
+                </div>
+                <div class="col-sm-3">
+                  <button class="btn btn-info w-100 submit" type="submit"><i class="far fa-play-circle fa-3x"></i></button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
+    </div>
+    <div class="typing__Box">
+      {% if channel != "create" %}
+      <div id="typing">
+        <div class="input-group">
+          <textarea class="form-control type_msg" name="msg" placeholder="Type a message..." id="message" minlength="2" maxlength="100" required></textarea>
+          <div class="input-group-append mr-3">
+            <button type="submit" class="btn_submit" id="send_message"><i class="fas fa-paper-plane fa-2x green"></i></button>
+          </div>
+        </div>
+      </div>
+      {% endif %}
     </div>
   </div>
--->
+</div>
 {% endblock %}

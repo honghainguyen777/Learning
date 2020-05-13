@@ -9,17 +9,21 @@
 
 html {
   box-sizing: border-box;
-  font-size: 62.5%; }
+  height: 100%;
+  font-size: 62.5%;
+  background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+  background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); }
   @media only screen and (max-width: 68.75em) {
     html {
       font-size: 50%; } }
 
 body {
   font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
   font-weight: 400;
-  line-height: 1.6;
-  color: #655A56;
-  background-image: linear-gradient(to right bottom, #91EAE4, #86A8E7);
+  line-height: 1;
+  background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+	background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
   background-size: cover;
   background-repeat: no-repeat;
   min-height: calc(100vh - 2 * 4vw);
@@ -29,6 +33,7 @@ nav .navbar-brand {
   /* size for brand */
   font-size: xx-large;
 }
+
 
 /* colors for brand */
 nav .navbar-brand .blue {
@@ -47,64 +52,59 @@ nav .navbar-brand .green {
   color: #2e944b;
 }
 
+nav .nav-link {
+  font-size: large;
+}
+
+.green {
+  color: #2e944b;
+}
+
 .nav-item {
-  font-size: 1.2rem;
+  font-size: large;
 }
 
 
 .container {
-  max-width: 100rem;;
+  max-width: 90rem;;
   margin: 1% auto;
   height: 86vh;
-  background-color: #fff;
-  border-radius: 6px;
+  border-radius: 20px;
+  background-color: rgba(0,0,0,0.4);
   overflow: hidden;
   box-shadow: 0 2rem 6rem 0.5rem rgba(101, 90, 86, 0.2);
   display: grid;
-  grid-template-rows: 10% 90%;
-  grid-template-columns: 15% 85%;
+  grid-template-rows: 0 100%;
+  grid-template-columns: 20% 80%;
   grid-template-areas: "head head" "channel chatroom";
   border: 1px solid #dfdfdf;
+  padding: 0;
 }
 @media only screen and (max-width: 68.75em) {
   .container {
-    width: 96%;
-    margin: 0 2% 0 2%;
     border-radius: 0;
   }
 }
 
-/* For header grid */
-.container > .header {
-  grid-area: head;
-  background-color: #F9F5F3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/*
-.type_msg {
-  border: none;
-  background: none;
-  font-family: inherit;
-  color: inherit;
-  font-size: 1.7rem;
-  width: 30rem;
-}
-*/
 
 /* For channel grid */
 .container > .channels {
   grid-area: channel;
-  background-color: lightblue;
+  background: -webkit-linear-gradient(to bottom, #eacda3 , #d6ae7b);
+	background: linear-gradient(to bottom, #eacda3 , #d6ae7b);
 }
 
 .channel_header {
   grid-area: channel;
   width: 100%;
   height: 10%;
-  background-color: blue;
+  background-color: rgba(0,0,0,0.2);
+  text-align: center;
+  padding-top: 10%;
+}
+.ch_header {
+  font-size: 20px;
+  color: green;
 }
 /* each item has a full width of the channel item and has height of some persent
 make sure if the user shrink there window, then the number of displace channel also reduce
@@ -121,20 +121,54 @@ or we can make a scrollable in the channel */
   float: right;
 }
 
+.channel_link {
+  text-align: center;
+}
+
+.channel_list > li:hover {
+  background-color: #C6EA8D;
+  transform: translateY(-2px);
+}
+
+.link_icon {
+  vertical-align: middle;
+  padding-left: 5%;
+  color: #38ADAE;
+}
+
+.results__data {
+  display: inline;
+}
+
+.results__name {
+  color: #38ADAE;
+}
+
 /* For Chatting grid */
 .container > .chatting {
   grid-area: chatroom;
   height: 100%;
-  background-color: lightgreen;
+  background: -webkit-linear-gradient(to bottom, #43cea2  , #185a9d);
+	background: linear-gradient(to bottom, #43cea2  , #185a9d);
   display: grid;
-  grid-template-rows: 10% 80% 13%;
+  grid-template-rows: 10% 80% 10%;
   grid-template-areas: "chattingHead" "chatingArea" "typingMessage";
 }
 
 
 .chat__header {
   grid-area: chattingHead;
-  background-color: red;
+  background-color: rgba(0,0,0,0.2);
+  text-align: center;
+  display: table;
+  color: green;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.header {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .chatingArea {
@@ -144,19 +178,52 @@ or we can make a scrollable in the channel */
 
 .typing__Box {
   grid-area: typingMessage;
-  background-color: yellow;
   padding: 5px;
+
 }
 
-.chatting__fig img {
-  border-radius: 50%;
-  height: 4rem;
-  margin: 10px 10px 0 10px;
-  /*
-  margin-left: 10px;
-  margin-top: 10px;
+/* For all message */
+.smg_container {
+  border: 2px solid #dedede;
+  background-color: #82ccdd;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.smg_container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.smg_container img {
+  float: left;
+  max-width: 50px;
+  width: 100%;
   margin-right: 20px;
-  float: left;*/
+  border-radius: 100%;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+  padding-right: 20px;
+  color: #DCDCDC;
+}
+@media only screen and (max-width: 68.75em) {
+  .time-right {
+    font-size: 12px;
+  }
+}
+
+.user_left {
+  clear: both;
+}
+
+.time-left {
+  float: left;
+  color: #999;
 }
 
 ul {
@@ -164,11 +231,36 @@ ul {
   list-style: none;
 }
 
+.type_msg {
+  font-size: 15px;
+  border-radius: 15px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  height: 80%;
+  width: 50%;
+
+}
+
 .scroll {
   overflow-x: hidden;
   text-align:justify;
 }
+textarea[name=msg] {
+  resize: none;
+  width: 100%;
+}
 
+
+
+.btn_submit {
+  border-radius: 0 15px 15px 0;
+}
+
+
+h6 {
+  font-size: medium;
+  color: #BADA55;
+}
 
 footer {
   height: 4vh;
@@ -176,4 +268,5 @@ footer {
 
 .footer-link {
   padding: 0 10px;
+  color: #BADA55;
 }
