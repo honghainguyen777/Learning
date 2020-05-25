@@ -1,0 +1,79 @@
+{% extends "orders/base.html" %}
+
+{% block script %}
+  {% load static %}
+  <script type="text/javascript" src="{% static 'orders/index.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container-lg menu p-0">
+  <div class="text-center">
+    {% load static %}
+    <img class="d-block mx-auto mb-4" src="{% static 'orders/logo.png' %}" alt="" width="150" height="150">
+    <h2>Menu</h2>
+    <p class="lead">Pizza is Life</p>
+  </div>
+  <div class="row w-100">
+    {% for name, product in products.items %}
+        <div class="col-md-6 menu-left p-0 mt-3 mb-3" data-category="{{ name }}">
+          <div class="pl-5">
+            <h3>{{ name }}</h3>
+          </div>
+          {% for item in product %}
+            <div class="d-flex align-items-center mt-3" data-itemName="{{ item.name }}">
+              <div class="flex-grow-1 ml-1 pl-3">
+                <h5>{{ item.name }}</h5>
+              </div>
+              <!-- for Pizzas -->
+              {% if name == 'Regular Pizzas' or name == 'Sicilian Pizzas' %}
+                {% if item.num_toppings != 0 %}
+                  <div class="mr-1">
+                    <select class="selectpicker toppings" multiple data-live-search="true" data-width="130px" data-max-options="{{ item.num_toppings }}" title="Toppings" data-style="btn-info" data-selected-text-format="count">
+                      {% for topping in toppings %}
+                        <option value="{{ topping.name }}">{{ topping.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+              <!-- for Subs -->
+              {% elif name == 'Subs' %}
+              <div class="mr-1">
+                <select class="selectpicker extrasubs" multiple data-live-search="true" data-width="130px" title="Extra" data-style="btn-info" data-selected-text-format="count">
+                  {% for extrasub in extra_subs %}
+                    <option value="{{ extrasub.name }}">{{ extrasub.name }} (+ €{{ extrasub.price_small}})</option>
+                  {% endfor %}
+                </select>
+              </div>
+              {% endif %}
+              <!-- For products with both large and small prices -->
+              {% if name != 'Pastas' and name != 'Salads' %}
+              <div class="mr-1">
+                <select class="selectpicker price-select" data-width="130px" name="" data-style="btn-success">
+                  <option value="{{ item.price_small}}">Small €{{ item.price_small}}</option>
+                  <option value="{{ item.price_large}}">Large €{{ item.price_large}}</option>
+                </select>
+              </div>
+              <!-- for product with a single size -->
+              {% else %}
+              <div class="mr-1 price-single" data-singlePrice={{ item.price_small }}>
+                <h6>Price: €{{ item.price_small}}</h6>
+              </div>
+              {% endif %}
+              <div class="mr-1" >
+                <button class="button-order" type="button" name="button">Order</button>
+              </div>
+            </div>
+          {% endfor %}
+          <hr class="dashed">
+        </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

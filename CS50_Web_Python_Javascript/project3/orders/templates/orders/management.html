@@ -1,0 +1,85 @@
+{% extends "orders/base.html" %}
+
+{% block script %}
+{% load static %}
+<script type="text/javascript" src="{% static 'orders/history.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  Order History
+{% endblock %}
+
+{% block body %}
+<div class="container-md cart p-0 mt-3 mb-3">
+  <div class="card">
+    <div class="card-header pt-3 pb-3 pl-0 pr-0">
+      <div class="row w-100 m-0">
+        <div class="col-2 d-flex align-items-center justify-content-center">
+          <p><b>Order ID</b></p>
+        </div>
+        <div class="col-8 d-flex align-items-center justify-content-center">
+          <h3>All Orders</h3>
+        </div>
+        <div class="col-2 d-flex align-items-center justify-content-center">
+          <p><b>Status</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        {% for id, order in orders.items %}
+        <div class="col-1 d-flex align-items-center border border-info">
+          <div class="text-center w-100">
+            <p>{{ id }}</p>
+          </div>
+        </div>
+        <div class="col-8 border border-info">
+          {% for item in order.ordered_products %}
+          <div class="item-field w-100 border-bottom border-success">
+            <div class="d-flex align-items-center mt-3">
+              <div class="flex-grow-1 ml-1 pl-3">
+                  <p>{{ item.name }} {{ item.category }}</p>
+              </div>
+              <div class="ml-1 pl-3">
+                <p>€{{ item.price }}</p>
+              </div>
+            </div>
+            {% if item.toppings %}
+            <div class="d-flex align-items-center">
+              <div class="flex-grow-1 ml-1 pl-3">
+                <p>Toppings: {{ item.toppings }}</p>
+              </div>
+            </div>
+            {% elif item.extra_subs %}
+            <div class="d-flex align-items-center">
+              <div class="flex-grow-1 ml-1 pl-3">
+                <p>Extra subs: {{ item.extra_subs }}</p>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="col-3 d-flex align-items-center border border-info p-0">
+          <div class="text-center w-100">
+            {% if order.status == "Completed"%}
+              <p>{{ order.status }}</p>
+            {% else %}
+              <form action="/manage" method="post">
+                {% csrf_token %}
+                <input name="orderId" value='{{ id }}' type="hidden"/>
+                <select class="selectpicker price-select" data-width="100px" name="status" data-style="btn-success">
+                  <option value="Pending">Pending</option>
+                  <option value="Completed">Completed</option>
+                </select>
+                <button class="button-confirm mt-1" type="submit">Make</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

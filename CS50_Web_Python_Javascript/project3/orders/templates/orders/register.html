@@ -1,0 +1,115 @@
+{% extends "orders/base.html" %}
+
+{% block body %}
+{% load static %}
+<div class="container-md login p-0">
+  <div class="d-flex justify-content-center h-100">
+    <div class="row w-100">
+      <div class="d-none d-md-block col-md-6 col-sm-12 login-left p-0">
+        <div id="carouselLoginPage" class="carousel slide h-100" data-ride="carousel" data-interval="1000000">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselLoginPage" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselLoginPage" data-slide-to="1"></li>
+            <li data-target="#carouselLoginPage" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner login-cover">
+            <div class="carousel-item active">
+              <img class="login-image d-block w-100" src="{% static 'orders/r_cheese_pizza.jpg' %}" alt="Regular cheese pizza">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>First slide label</h5>
+                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img class="login-image d-block w-100" src="{% static 'orders/r_cheese_pizza.jpg' %}" alt="Regular cheese pizza">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Second slide label</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img class="login-image d-block w-100" src="{% static 'orders/r_cheese_pizza.jpg' %}" alt="Regular cheese pizza">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Third slide label</h5>
+                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 text-center login-right p-0">
+        <div class="card login-card rounded-0 border-0">
+          <div class="row justify-content-center ">
+            <div class="col-md-10 col-10 mt-3">
+              <img id="login-logo" src="{% static 'orders/logo.png' %}">
+              <h3 class="mb-5 text-center heading">Welcome Pizza's lovers</h3>
+              <form action="/register" method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="col-md-6 input-group form-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
+                  </div>
+                  <div class="col-md-6 input-group form-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                  </div>
+                  <div class="col-md-12 input-group form-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user-plus"></i></span>
+                    </div>
+                    <input type="text" class="form-control" name="username" placeholder="Username" minlength="3" required>
+                  </div>
+                  <div class="col-md-6 input-group form-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                  </div>
+                  <div class="col-md-6 input-group form-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                    <input type="password" name="confirmation" class="form-control" placeholder="Confirmation" required>
+                  </div>
+                  <div class="col-md-12 input-group form-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <input type="email" name="email" class="form-control" placeholder="Your email" required>
+                  </div>
+                </div>
+                <div class="justify-content-center pb-2">
+                  <input type="checkbox" class="mr-3" required>I agree to the term of use
+                </div>
+                <div class="form-group" style="text-align:center;">
+                  <button type="submit" class="btn btn-login">Sign In</button>
+                </div>
+              </form>
+              <div class="row m-0 p-0">
+                <div class="col-4">
+                  <hr>
+                </div>
+                <div class="col-4">
+                  <p>Or</p>
+                </div>
+                <div class="col-4">
+                  <hr>
+                </div>
+              </div>
+              <form method="get" action="/login">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-register mb-3">Login</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
