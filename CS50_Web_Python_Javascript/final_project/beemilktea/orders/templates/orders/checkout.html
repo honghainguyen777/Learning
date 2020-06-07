@@ -1,0 +1,174 @@
+{% extends 'orders/base.html' %}
+
+{% block script %}
+{% load static %}
+<script type="text/javascript" src="{% static 'orders/js/checkout.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block main %}
+
+{% if messages %}
+{% for message in messages %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+<div class="alert alert-warning alert-dismissible fade show text-center" id="signup-failed" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+<div class="container pb-5 bg-light">
+  <div class="py-5 text-center">
+    {% load static %}
+    <img class="d-block mx-auto mb-4" src="{% static 'orders/images/logo.png' %}" alt="" width="150" height="150">
+    <h2>Checkout form</h2>
+    <p class="lead">Fresh and Cool</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted white">Your cart</span>
+        <span class="badge badge-secondary badge-pill" id="item-count"></span>
+      </h4>
+      <ul class="list-group mb-3 black" id="items-abstract">
+        <!-- list of abstracted items -->
+      </ul>
+    </div>
+
+
+    <div class="col-md-8 order-md-1">
+      <form class="needs-validation" novalidate action="/checkout" method="post">
+        {% csrf_token %}
+        <h4 class="mb-3">Shipping details</h4>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Jonas Bravia" value="" required>
+            <div class="invalid-feedback">
+              Valid name is required.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="mobile">Mobile number</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="0123456789" value="" required>
+            <div class="invalid-feedback">
+              Valid mobile number is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="address">Address</label>
+          <input type="text" class="form-control" id="address" name="address" placeholder="King street 54" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-5 mb-3" id="country-info">
+            <label for="country">Country</label>
+            <input type="text" class="form-control d-block w-100" id="country" name="country" placeholder="Germany" required>
+            <!-- <select class="custom-select d-block w-100" id="country" name="country" required>
+              <option value="Austria">Austria</option>
+              <option value="France">France</option>
+              <option value="Germany">Germany</option>
+            </select> -->
+            <div class="invalid-feedback">
+              Please select a valid country.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="state">State/City</label>
+            <input type="text" class="form-control d-block w-100" id="state" name="state" placeholder="Berlin" required>
+            <div class="invalid-feedback">
+              Please provide a valid state.
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="zip">Zip</label>
+            <input type="text" class="form-control" id="zip" name="zipcode" placeholder="12345" required>
+            <div class="invalid-feedback">
+              Zip code required.
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="expected_time">Expected delivery time and requests</label>
+          <input type="text" class="form-control" id="expected_time" name="expected_time_request" placeholder="Expected delivery time: 5PM tomorrow">
+        </div>
+        <!-- <div class="mb-3">
+          <input type="checkbox" class="mr-3">Save the shipping details in your device?
+        </div> -->
+        <hr class="mb-4">
+
+        <!-- <h4 class="mb-3">Payment</h4>
+
+        <div class="d-block my-3">
+          <div class="d-flex align-items-center mt-3">
+            <div class="flex-grow-1 ml-1 pl-3">
+              Credit card
+            </div>
+            <div class="mr-1">
+              <img src="{% static 'orders/images/mastercard.jpg' %}" alt="" width="80">
+            </div>
+            <div class="mr-1">
+              <img src="{% static 'orders/images/visa.jpg' %}" alt="" width="80">
+            </div>
+            <div class="mr-5">
+              <img src="{% static 'orders/images/amex.jpg' %}" alt="" width="74">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="cc-name">Name on card</label>
+            <input type="text" class="form-control" id="cc-name" placeholder="" required>
+            <small class="text-muted">Full name as displayed on card</small>
+            <div class="invalid-feedback">
+              Name on card is required
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="cc-number">Credit card number</label>
+            <input type="text" class="form-control" id="cc-number" placeholder="" required>
+            <div class="invalid-feedback">
+              Credit card number is required
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label for="cc-expiration">Expiration</label>
+            <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+            <div class="invalid-feedback">
+              Expiration date required
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="cc-expiration">CVV</label>
+            <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+            <div class="invalid-feedback">
+              Security code required
+            </div>
+          </div>
+        </div>
+        <hr class="mb-4">
+        <div class="justify-content-center text-center pb-2">
+          <input type="checkbox" class="mr-3" required>I agree to the term of purchase
+          <div class="invalid-feedback">
+            Please confirm the order.
+          </div>
+        </div> -->
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "orders/base.html" %}
+
+{% block script %}
+{% load static %}
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+{% endblock %}
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block main %}
+
+<div class="container-md p-0 mt-2">
+  <div class="row equal">
+    {% for category, items in data.items %}
+    <div class="col-12 mt-3 text-center" data-aos="fade-right">
+      <h4  class="text-center text-success">{{ category }}</h4>
+    </div>
+      {% for item in items %}
+      <div class="col-lg-3 col-md-4 col-sm-6 m-0 d-flex p-2 card-containerd" data-aos="zoom-in" data-aos-duration="1000">
+        <div class="card bg-light w-100">
+          <div class="card-image w-100">
+            <a class="card-link" href="item/{{ item.id }}"></a>
+            {% with "orders/images/"|add:item.image_filename as path %}
+            {% load static %}
+            <img class="card-img-top" src="{% static path %}" alt="product_image">
+            {% endwith %}
+          </div>
+          <div class="card-body">
+            <h6 class="card-title border-bottom pb-1 item-name btn-link"><b>{{ item.name }}</b></h6>
+            <p class="card-text">{{ item.description_short }}</p>
+            <div class="card-footer p-0 m-0 border-0 ">
+              <div class="d-flex align-items-center bg-light text-success">
+                <div class="flex-grow-1">
+                  <h6>Price: €{{ item.price }} / {{ item.unit }}</h6>
+                </div>
+                <div class="">
+                  <a href="#" class="btn btn-sm btn-info float-right"><i class="fas fa-cart-plus fa-lg"></i> Buy</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  AOS.init();
+</script>
+
+{% endblock %}

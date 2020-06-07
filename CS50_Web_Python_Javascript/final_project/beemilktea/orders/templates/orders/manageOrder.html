@@ -1,0 +1,77 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+  Order History
+{% endblock %}
+
+{% block main %}
+<div class="container-md cart p-0 mt-3 mb-3">
+  <div class="card">
+    <div class="card-header pt-3 pb-3 pl-0 pr-0">
+      <h3 class="text-center">All Orders</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        {% for id, order in orders.items %}
+        <div class="col-7 border border-info p-0">
+          <h5 class="text-center m-0"><b>Order no.{{ id }}</b> - €{{ order.total_price }} ({{ order.item_count }} items)</h5>
+          <ul class="list-group m-1">
+            {% for item in order.ordered_products %}
+            <li class="list-group-item p-0">
+              <a href="/item/${item["id"]}"><h6 class="m-0"><b>- {{ item.name }}</b></h6></a>
+              <p class="m-0 pl-2">Quantity: {{ item.quantity }} | Price: €{{ item.price }} (€{{ item.basic_price }}/{{ item.unit }}) | {{ item.user_request }}</p>
+            </li>
+            {% endfor %}
+          </ul>
+          <div class="reciever_info ml-2 mb-2">
+            <h6 class="text-center mb-0"><b>Customer info</b></h6>
+            <p class="m-0">Customer name: {{ order.customer_name }}</p>
+            <p class="m-0">Mobile: {{ order.customer_mobile }}</p>
+            <p class="m-0">Shipping address: {{ order.shipping_address }}</p>
+            <p class="m-0">Ordered on: {{ order.customer_ordered_time }}</p>
+            <p class="m-0">User desires: {{ order.customer_desires }}</p>
+            <p class="m-0">Delivery on: {{ order.delivery_time }}</p>
+          </div>
+        </div>
+        <div class="col-5 d-flex align-items-center border border-info p-0">
+          <div class="text-center w-100">
+            {% if order.status == "Delivered"%}
+              <p>{{ order.status }}</p>
+            {% else %}
+              <form action="/manageOrder" class="mb-1" method="post">
+                {% csrf_token %}
+                <input name="orderId" value='{{ id }}' type="hidden"/>
+                <div class="form-group m-0">
+                  <label for="datetime" class="m-0">Expected delivery time</label>
+                  <div class="d-sm-flex justify-content-center">
+                    <div class="text-center">
+                      <input type="time" name="time" style="width: 120px;" class="form-control" id="datetime">
+                    </div>
+                    <div class="">
+                      <input class="form-control" name="date" style="width: 160px;" type="date" value="2020-06-04" id="example-date-input">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group m-0">
+                  <label for="status" class="m-0" mt-2>Order status</label>
+                  <div class="d-flex justify-content-center">
+                    <select class="selectpicker price-select" data-width="100px" name="status" data-style="btn-success">
+                      <option value="Pending">Pending</option>
+                      <option value="Prepared">Prepared</option>
+                      <option value="Shipping">Shipping</option>
+                      <option value="Delivered">Delivered</option>
+                    </select>
+                  </div>
+                </div>
+                <button class="button-confirm mt-1" type="submit">Update order</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

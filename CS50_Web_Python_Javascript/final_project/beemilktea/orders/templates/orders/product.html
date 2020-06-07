@@ -1,0 +1,95 @@
+{% extends "orders/base.html" %}
+
+{% block script %}
+{% load static %}
+<script type="text/javascript" src="{% static 'orders/js/product.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+{{ item.name }}
+{% endblock %}
+
+{% block main %}
+
+<div class="container pb-5 mt-5">
+  <div class="row equal">
+    <div class="col-md-5 d-flex d-flex align-items-center justify-content-center" style="overflow:hidden">
+      <div class="product-image w-100">
+        {% with "orders/images/"|add:item.image_filename as path %}
+        {% load static %}
+        <img src="{% static path %}" class="img-product" alt="beemilktea">
+        <!-- <img src="static/orders/images/{{ item.image_filename }}" class="img-product" alt="beemilktea" style="height: 400px; flex-shrink:0;"> -->
+        {% endwith %}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <!-- Improve it -->
+      <div class="invisible" id="data-item" data-item='{{ JSONdata }}'></div>
+      <h4 class="mb-3 d-inline text-success"><b>{{ item.name }} </b></h4>
+      <p class="text-info pl-1 mb-2">{{ item.description_short }}</p>
+      <h6 class="pl-1 price_basic" data-price='{{ item.price }}'><b>Our price:</b> €{{ item.price }} / {{ item.unit }}</h6>
+      <h6 class="pl-1"><b>Category:</b> {{ item.category }}</h6>
+      <h6 class="pl-1"><b>Type:</b> {{ item.availability }}</h6>
+      <hr>
+      <p class="pl-1">{{ item.description_long }}</p>
+
+      <hr>
+    </div>
+
+
+    <div class="col-md-3 bg-light m-0 p-0 customer-needs">
+      <div class="w-100 border">
+        <h4 class="m-1 text-center" id="item_QPrice">€{{ item.price }}</h4>
+      </div>
+
+      <div class="p-3 text-center">
+        <h6 class="pr-3"><b>Quantity:</b></h6>
+        <div class="d-flex justify-content-center">
+          <button id="minus" class="quantity_left btn btn-outline-dark"><i class="fas fa-minus"></i></button>
+          <input id="quantity" class="quantity_middle btn-outline-dark" type="number" value="1" min=1>
+          <button id="plus" class="quantity_right btn btn-outline-dark"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+
+      <div class="ice pb-3 text-center">
+        <h6 class="pr-3"><b>Do you want ice?</b></h6>
+        <h6 class="pr-3">(If yes, item and ice separated or together?)</h6>
+        <select class="selectpicker ice-type" data-style="btn-info" data-width="150px">
+          <option value="item together with ice" selected="selected">Yes (together)</option>
+          <option value="item separated with ice">Yes (separated)</option>
+          <option value="no ice">No</option>
+        </select>
+      </div>
+
+      <div class="with-ice pb-3 text-center">
+        <h6 class="pr-3"><b>Amount of ice</b></h6>
+        <select class="selectpicker ice-amount" data-style="btn-info" data-width="150px">
+          <option value="less ice">less ice</option>
+          <option value="normal" selected>normal</option>
+          <option value="more ice">more ice</option>
+        </select>
+      </div>
+
+      <div class="ice text-center">
+        <h6 class="pr-3"><b>Extra needs:</b></h6>
+        <div class="mr-1 ml-1">
+          <input class="w-100 needs-other" type="text" name="needs-other">
+        </div>
+      </div>
+      <hr>
+
+      <!-- shopping -->
+
+
+      <div class=" btn-add-to-cart text-center">
+        <button type="button" name="button-cart" id="add-to-cart" class="btn btn-success"><i class="fas fa-cart-plus fa-lg"></i> Add to cart</a></button>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+{% endblock %}

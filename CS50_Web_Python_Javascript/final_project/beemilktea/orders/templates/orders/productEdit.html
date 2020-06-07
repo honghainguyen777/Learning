@@ -1,0 +1,117 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+  Product management
+{% endblock %}
+
+{% block main %}
+
+<div class="container pb-5 bg-light">
+  <h3 class="text-center mt-3">New product</h3>
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+  <div class="">
+    <form class="needs-validation" novalidate action="/manageProduct" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="productName">Edit product information</label>
+          <input type="text" class="form-control" id="productName" name="productName" value="{{ product.name }}" required>
+          <div class="invalid-feedback">
+            Valid product name is required.
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="category">Category</label>
+          <select class="custom-select d-block w-100" id="category" name="category" required>
+            <option value="{{ product.category }}">{{ product.category }}</option>
+            <option value="MILK TEA">MILK TEA</option>
+            <option value="SODA">SODA</option>
+            <option value="FRESH MILK">FRESH MILK</option>
+            <option value="FRUIT TEA">FRUIT TEA</option>
+            <option value="JUNK FOOD">JUNK FOOD</option>
+            <option value="OTHER DRINK">OTHER DRINK</option>
+          </select>
+          <div class="invalid-feedback">
+            Please select a valid category.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <label for="price_basic">Basic Price (€) per unit</label>
+          <input type="number" class="form-control" id="price_basic" name="price_basic" value="{{ product.price }}" step="0.01" min="0" required>
+          <div class="invalid-feedback">
+            Valid product price is required.
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="unit">Unit</label>
+          <input type="text" class="form-control" id="unit" name="unit" value="{{ product.unit }}" maxlength="8" required>
+          <div class="invalid-feedback">
+            Valid product unit is required.
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="availablity">Availablity</label>
+          <select class="custom-select d-block w-100" id="availablity" name="availablity" required>
+            <option value="{{ product.availability }}">{{ product.availability }}</option>
+            <option value="available">available</option>
+            <option value="unavailable">unavailable</option>
+            <option value="comming soon">comming soon</option>
+          </select>
+          <div class="invalid-feedback">
+            Please select a valid availablity.
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="quantity">Quantity</label>
+          <input type="number" class="form-control" id="quantity" name="quantity" value="{{ product.quantity }}" min="0" required>
+          <div class="invalid-feedback">
+            Valid product quantity is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8 mb-3">
+          <label for="description_short">Short description</label>
+          <input type="text" class="form-control" id="description_short" name="description_short" value="{{ product.description_short }}" maxlength="64" required>
+          <div class="invalid-feedback">
+            Please enter a short description about the product.
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="form-group">
+            <label for="product_image">Change image (optional)</label>
+            <input type="file" class="form-control-file" id="product_image" name="product_image" accept="image/*">
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="description_long">Long description</label>
+        <input type="text" class="form-control" id="description_long" name="description_long" value="{{ product.description_short }}" required>
+        <div class="invalid-feedback">
+          Please enter a long description about the product.
+        </div>
+      </div>
+      <hr class="mb-4">
+      <input type="hidden" name="product_id" class="product_id" value="{{ product.id }}">
+      <input type="hidden" name="upload_type" class="upload_type" value="edit">
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Upload edited product information</button>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}

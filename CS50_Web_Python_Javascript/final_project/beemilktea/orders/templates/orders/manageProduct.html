@@ -1,0 +1,162 @@
+{% extends "orders/base.html" %}
+
+{% block script %}
+{% load static %}
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+{% endblock %}
+
+{% block title %}
+  Product management
+{% endblock %}
+
+{% block main %}
+
+<div class="container pb-5 bg-light">
+  <h3 class="text-center mt-3">New product</h3>
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+  <div class="">
+    <form class="needs-validation" novalidate action="/manageProduct" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="productName">Product name</label>
+          <input type="text" class="form-control" id="productName" name="productName" placeholder="Matcha Boba Tea" value="" required>
+          <div class="invalid-feedback">
+            Valid product name is required.
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="category">Category</label>
+          <select class="custom-select d-block w-100" id="category" name="category" required>
+            <option value="">Choose...</option>
+            <option value="MILK TEA">MILK TEA</option>
+            <option value="SODA">SODA</option>
+            <option value="FRESH MILK">FRESH MILK</option>
+            <option value="FRUIT TEA">FRUIT TEA</option>
+            <option value="JUNK FOOD">JUNK FOOD</option>
+            <option value="OTHER DRINK">OTHER DRINK</option>
+          </select>
+          <div class="invalid-feedback">
+            Please select a valid category.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <label for="price_basic">Basic Price (€) per unit</label>
+          <input type="number" class="form-control" id="price_basic" name="price_basic" placeholder="13.75" step="0.01" min="0" required>
+          <div class="invalid-feedback">
+            Valid product price is required.
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="unit">Unit</label>
+          <input type="text" class="form-control" id="unit" name="unit" placeholder="cup" maxlength="8" required>
+          <div class="invalid-feedback">
+            Valid product unit is required.
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="availablity">Availablity</label>
+          <select class="custom-select d-block w-100" id="availablity" name="availablity" required>
+            <option value="">Choose...</option>
+            <option value="available">available</option>
+            <option value="unavailable">unavailable</option>
+            <option value="comming soon">comming soon</option>
+          </select>
+          <div class="invalid-feedback">
+            Please select a valid availablity.
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <label for="quantity">Quantity</label>
+          <input type="number" class="form-control" id="quantity" name="quantity" placeholder="" min="0" required>
+          <div class="invalid-feedback">
+            Valid product quantity is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8 mb-3">
+          <label for="description_short">Short description</label>
+          <input type="text" class="form-control" id="description_short" name="description_short" placeholder="This is a sweet and fresh milk tea" maxlength="64" required>
+          <div class="invalid-feedback">
+            Please enter a short description about the product.
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="form-group">
+            <label for="product_image">Upload product image</label>
+            <input type="file" class="form-control-file" id="product_image" name="product_image" accept="image/*" required>
+          </div>
+          <div class="invalid-feedback">
+            Please upload a valid image
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="description_long">Long description</label>
+        <input type="text" class="form-control" id="description_long" name="description_long" placeholder="Write a long description about product" required>
+        <div class="invalid-feedback">
+          Please enter a long description about the product.
+        </div>
+      </div>
+      <hr class="mb-4">
+      <input type="hidden" name="upload_type" class="upload_type" value="upload">
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Upload product information</button>
+    </form>
+  </div>
+</div>
+
+
+
+<div class="container-lg p-0 mt-2">
+  <div class="row equal">
+    {% for category, items in data.items %}
+      {% for item in items %}
+      <div class="col-lg-3 col-md-4 col-sm-6 m-0 d-flex p-2 card-container" data-aos="zoom-in-down">
+        <div class="card bg-light w-100">
+          <div class="card-image w-100">
+            <img class="card-img-top" src="static/orders/images/{{ item.image_filename }}" alt="product_image">
+          </div>
+          <div class="card-body">
+            <h6 class="card-title border-bottom pb-1 item-name"><b>{{ item.name }}</b></h6>
+            <p class="card-text">{{ item.description_short }}</p>
+            <div class="card-footer p-0 m-0 border-0 ">
+              <div class="d-flex align-items-center bg-light text-success">
+                <div class="flex-grow-1">
+                  <h6>€{{ item.price }}</h6>
+                </div>
+                <div class="">
+                  <form action="/productEdit" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" class="product_id" value="{{ item.id }}">
+                    <button type="submit" class="btn btn-primary"> Edit product</a></button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  AOS.init();
+</script>
+{% endblock %}

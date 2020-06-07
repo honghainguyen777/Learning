@@ -1,0 +1,74 @@
+{% extends "orders/base.html" %}
+
+{% block script %}
+{% load static %}
+<script type="text/javascript" src="{% static 'orders/js/history.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  Order History
+{% endblock %}
+
+{% block main %}
+
+{% if message %}
+<div class="alert alert-primary border text-center" id="message" data-message='{{ message }}' role="alert">
+  {{ message }}
+</div>
+{% endif %}
+
+<div class="container-md cart p-0 mt-3 mb-3">
+  <div class="card">
+    <div class="card-header pt-3 pb-3 pl-0 pr-0">
+      <div class="w-100 m-0">
+        <div class="d-flex align-items-center justify-content-center">
+          <h3>Your Orders</h3>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      {% if not orders %}
+      <div class="text-center pt-3 pb-3" id="empty">
+        <img style="width: 300px;" src="https://cdn.pixabay.com/photo/2016/07/23/12/54/box-1536798_960_720.png">
+        <h4 class="pt-2">Opps! Seem like you didn't buy anything</h4>
+        <a class="btn btn-primary text-white border-0 mt-3" href="/" role="button" aria-expanded="false">
+          <div class="d-flex justify-items-center">
+            <i class="fas fa-cart-plus fa-2x"></i>
+            <h4 class="ml-2">Start shopping now</h4>
+          </div>
+        </a>
+      </div>
+      {% endif %}
+      {% for id, order in orders.items %}
+      <div class="border border-info p-0">
+        <h5 class="text-center m-0"><b>Order no.{{ id }}</b> - €{{ order.total_price }} ({{ order.item_count }} items)</h5>
+        <h6 class="text-center">Status: {{ order.status }}</h6>
+        <ul class="list-group m-1">
+          {% for item in order.ordered_products %}
+          <li class="list-group-item p-0">
+            <a href="/item/${item["id"]}"><h6 class="m-0"><b>- {{ item.name }}</b></h6></a>
+            <p class="m-0 pl-2">Quantity: {{ item.quantity }} | Price: €{{ item.price }} (€{{ item.basic_price }}/{{ item.unit }}) | {{ item.user_request }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="reciever_info ml-2 mb-2">
+          <h6 class="text-center mb-0"><b>Shipping details</b></h6>
+          <p class="m-0">Reciever: {{ order.customer_name }}</p>
+          <p class="m-0">Mobile: {{ order.customer_mobile }}</p>
+          <p class="m-0">Shipping address: {{ order.shipping_address }}</p>
+          <p class="m-0">Ordered on: {{ order.customer_ordered_time }}</p>
+          {% if order.delivery_time != None %}
+          <p class="m-0">Order will be deliveried on: {{ order.delivery_time }}</p>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="card-footer">
+      <div class="d-flex align-items-center mt-1 mb-3 justify-content-center">
+        <h4 class="text-center m-0">Thank you very much for your orders</h4>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
