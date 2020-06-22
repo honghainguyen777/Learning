@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 // render a card for the selected dish
 function RenderDish({dish}) {
@@ -17,32 +18,35 @@ function RenderDish({dish}) {
                 <CardTitle>{dish.name}</CardTitle>
                 <CardText>{dish.description}</CardText>
             </CardBody>
-        </Card> 
+        </Card>
     );
 }
 
 // render all comments for the selected dish
-function RenderComments({comments, addComment, dishId}) {
+function RenderComments({comments, postComment, dishId}) {
     // check if comments are null
     if (comments === null) {
         return <div></div>;
     }
 
-    // iterate through all comments
-
-    const renderComments = comments.map((comment) => (
-        <li key={comment.id}>
-            <p>{comment.comment}</p>
-            <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
-        </li>
-        )
-    );
-
     return (
-        <div>
+        <div className="col-12 col-md-5 m-1">
             <h4>Comments Here</h4>
-            {renderComments}
-            <CommentForm dishId={dishId} addComment={addComment} />
+            <ul className='list-unstyled'>
+                <Stagger in>
+                    {comments.map((comment) => {
+                        return (
+                            <Fade in>
+                                <li key={comment.id}>
+                                    <p>{comment.comment}</p>
+                                    <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
+                                </li>
+                            </Fade>
+                        );
+                    })}
+                </Stagger>
+            </ul>
+            <CommentForm dishId={dishId} postComment={postComment} />
         </div>
     );
 }
@@ -70,7 +74,7 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
 
@@ -175,16 +179,17 @@ const DishDetail = (props) => {
                 </div>
                 <div className="row">
                     <div className="col-12 col-md-5 m-1">
-                        <RenderDish dish={props.dish} />
+                        <FadeTransform in
+                            transformProps=
+                            {{exitTransform: 'scale(0.5) translateY(-50%)'
+                        }}>
+                            <RenderDish dish={props.dish} />
+                        </FadeTransform>
                     </div>
-                    <div className="col-12 col-md-5 m-1">
-                        <ul className='list-unstyled'>
-                            <RenderComments comments={props.comments}
-                                addComment={props.addComment}
-                                dishId={props.dish.id}
-                            />
-                        </ul>
-                    </div>
+                    <RenderComments comments={props.comments}
+                        postComment={props.postComment}
+                        dishId={props.dish.id}
+                    />
                 </div>
             </div>
         );

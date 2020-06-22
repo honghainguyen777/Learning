@@ -12,9 +12,6 @@ export const Comments = (state = {
 
         case ActionTypes.ADD_COMMENT:
             var comment = action.payload;
-            // increase the id when a comment is added
-            comment.id = state.comments.length;
-            comment.date = new Date().toISOString();
             return {...state, comments: state.comments.concat(comment)};
         default:
             return state;

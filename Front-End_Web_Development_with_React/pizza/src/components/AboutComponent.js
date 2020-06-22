@@ -1,34 +1,65 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
+import { Fade, Stagger } from 'react-animation-components';
+
 
 function About(props) {
+    // render the leaders information, if we do isLoading for the entire About component,
+    // we will get a trouble if the errMess is throwed --> no load the About us part (that already provided without fetching for server's data)
+    // therefore, we have to do fetching handling only in the Corporate Leadership (Leaders rendering) part only
+    function RenderLeaders({leaders}) {
 
-    const leaders = props.leaders.map((leader) => {
-        return (
-            <RenderLeader key={leader.id} leader={leader} />
-        );
-    });
-
-    function RenderLeader({leader}) {
-        return (
-            <div key={leader.id} className="col-12 mt-5">
-                <Media tag='li'>
-                    <Media left>
-                        <Media object src={leader.image} alt={leader.name} />
+        if (leaders.isLoading) {
+            return(
+                <div className="container">
+                    <div className="row">
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+        else if (leaders.errMess) {
+            return (
+                <div className="container">
+                    <div className="row">
+                        <h4>{leaders.errMess}</h4>
+                    </div>
+                </div>
+            );
+        }
+        else {
+            return (
+                <div className="col-12 mt-5">
+                    <Media list>
+                        <Stagger in>
+                            {leaders.leaders.map((leader) => {
+                                return (
+                                    <Fade in key={leader.id}>
+                                        <Media tag='li'>
+                                            <Media left>
+                                                <Media object src={baseUrl + leader.image} alt={leader.name} />
+                                            </Media>
+                                            <Media body className="ml-5">
+                                                <Media heading>{leader.name}</Media>
+                                                <p>{leader.designation}</p>
+                                                <p>{leader.description}</p>
+                                            </Media>
+                                        </Media>
+                                    </Fade>
+                                );
+                            })}
+                        </Stagger>
                     </Media>
-                    <Media body className="ml-5">
-                        <Media heading>{leader.name}</Media>
-                        <p>{leader.designation}</p>
-                        <p>{leader.description}</p>
-                    </Media>
-                </Media>
-            </div>
-        );
+                </div>
+            )
+        }
     }
     
-
-    return(
+    // here the provided information (Our History) will be rendered without any effects from leaders fetching
+    return (
         <div className="container">
             <div className="row">
                 <Breadcrumb>
@@ -82,11 +113,7 @@ function About(props) {
                 <div className="col-12">
                     <h2>Corporate Leadership</h2>
                 </div>
-                <div className="col-12">
-                    <Media list>
-                        {leaders}
-                    </Media>
-                </div>
+                <RenderLeaders leaders={props.leaders} />
             </div>
         </div>
     );

@@ -201,6 +201,14 @@
       "comment": "It's your birthday, we're gonna party!",
       "author": "25 Cent",
       "date": "2011-12-02T17:57:28.556094Z"
+    },
+    {
+      "dishId": 2,
+      "rating": "5",
+      "author": "Hai",
+      "comment": "This is good",
+      "date": "2020-06-21T13:10:59.136Z",
+      "id": 20
     }
   ],
   "promotions": [
@@ -263,6 +271,116 @@
       "message": "afadsfds",
       "date": "2017-12-04T09:41:49.890Z",
       "id": 1
+    },
+    {
+      "firstname": "King",
+      "lastname": "Weed",
+      "telnum": "0123456",
+      "email": "eva@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "A feedback",
+      "date": "2020-06-22T03:45:01.071Z",
+      "id": 2
+    },
+    {
+      "firstname": "John",
+      "lastname": "Wirck",
+      "telnum": "09873211",
+      "email": "king@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "Another feedback",
+      "date": "2020-06-22T03:46:11.262Z",
+      "id": 3
+    },
+    {
+      "firstname": "John",
+      "lastname": "Wirck",
+      "telnum": "09873211",
+      "email": "king@gmail.com",
+      "agree": true,
+      "contactType": "Tel.",
+      "message": "Another feedback",
+      "date": "2020-06-22T03:47:13.982Z",
+      "id": 4
+    },
+    {
+      "firstname": "Kana",
+      "lastname": "Pico",
+      "telnum": "0333333",
+      "email": "piko@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "Hahahahaha",
+      "date": "2020-06-22T03:50:12.112Z",
+      "id": 5
+    },
+    {
+      "firstname": "Haha",
+      "lastname": "Hihi",
+      "telnum": "044444444",
+      "email": "das@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "Hahahaha",
+      "date": "2020-06-22T03:56:40.065Z",
+      "id": 6
+    },
+    {
+      "firstname": "ddad",
+      "lastname": "sada",
+      "telnum": "321321",
+      "email": "eva@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "eweqeq",
+      "date": "2020-06-22T03:59:55.252Z",
+      "id": 7
+    },
+    {
+      "firstname": "dadsa",
+      "lastname": "w2eq",
+      "telnum": "09873211",
+      "email": "eva@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "dadsada",
+      "date": "2020-06-22T04:03:05.863Z",
+      "id": 8
+    },
+    {
+      "firstname": "ewqewq",
+      "lastname": "wqeqwe",
+      "telnum": "32321",
+      "email": "eva@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "dsadasda",
+      "date": "2020-06-22T04:04:15.087Z",
+      "id": 9
+    },
+    {
+      "firstname": "dasdas",
+      "lastname": "aSass",
+      "telnum": "321321",
+      "email": "eva@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "fdsadasds",
+      "date": "2020-06-22T04:05:50.634Z",
+      "id": 10
+    },
+    {
+      "firstname": "dadAS",
+      "lastname": "XXASD",
+      "telnum": "321321",
+      "email": "eva@gmail.com",
+      "agree": true,
+      "contactType": "Email",
+      "message": "DASDSADA",
+      "date": "2020-06-22T04:06:48.071Z",
+      "id": 11
     }
   ]
 }
