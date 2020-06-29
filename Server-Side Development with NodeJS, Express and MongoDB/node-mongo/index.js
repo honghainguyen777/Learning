@@ -1,38 +1,46 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const dboper = require('./operations');
+const { brotliDecompress } = require('zlib');
 
 const url = 'mongodb://localhost:27017/';
 const dbname = 'pizza';
 
-MongoClient.connect(url, (err, client) => {
-    // check if the error is null
-    assert.equal(err, null);
+MongoClient.connect(url).then((client) => {
 
-    // if not
-    console.log('Connected correctly to the server');
+    console.log('Connected correctly to server');
     const db = client.db(dbname);
-    const collection = db.collection('dishes');
 
-    collection.insertOne({"name": "Hai", "description": "a test"}, (err, result) => {
-       assert.equal(err, null);
-       
-       console.log('After Insert:');
-       console.log(result.ops);
+    dboper.insertDocument(db, { name: "Vadonut", description: "Test"},
+        "dishes")
+    .then((result) => {
+        console.log("Insert Document:\n", result.ops);
 
-       collection.find({}).toArray((err, docs) => {
-            assert.equal(err, null);
+        return dboper.findDocuments(db, "dishes");
+    })
+    .then((docs) => {
+        console.log("Found Documents:\n", docs);
 
-            console.log('Found:');
-            console.log(docs);
+        return dboper.updateDocument(db, { name: "Vadonut" },
+                { description: "Updated Test" }, "dishes");
 
-            // delete the collection
-            db.dropCollection('dishes', (err, result) => {
-                assert.equal(err, null);
-                
-                console.log("Connection is closed!");
-                // close the connection to the database
-                client.close();
-            });
-       });
-    });
-});
+    })
+    .then((result) => {
+        console.log("Updated Document:\n", result.result);
+
+        return dboper.findDocuments(db, "dishes");
+    })
+    .then((docs) => {
+        console.log("Found Updated Documents:\n", docs);
+                        
+        return db.dropCollection("dishes");
+    })
+    .then((result) => {
+        console.log("Dropped Collection: ", result);
+
+        return client.close();
+    })
+    .catch((err) => console.log(err));
+
+})
+.catch((err) => console.log(err));
