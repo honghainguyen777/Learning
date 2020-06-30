@@ -44,54 +44,28 @@ app.use(session({
   store: new FileStore()
 }));
 
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
 function auth(req, res, next) {
   // console.log(req.signedCookies);
   console.log(req.session);
 
   // if (!req.signedCookies.user) {
   if (!req.session.user) {
-    var authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-      var err = new Error('You are not authenticated!')
-      
-      res.setHeader('WWW-Authenticate', 'Basic');
-      err.status = 401;
-      return next(err);
+    var err = new Error('You are not authenticated!')
+    err.status = 403;
+    return next(err);
     }
-
-    // authHeader contains 'Basic xxxxxxxxxxxxxxxxxx64bitencoded'
-    //  xxxxxxxxxxxxxxxxxx64bitencoded is username:password
-    // Therefore, we have to split two times to get username and password
-    var auth = new Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
-
-    var username = auth[0];
-    var password = auth[1];
-
-    if (username === 'admin' && password === 'password') {
-      // res.cookie('user', 'admin', { signed: true })
-      req.session.user = 'admin';
-      // pass to the next middleware
-      next();
-    }
-    else {
-      var err = new Error('You are not authenticated!')
-      
-      res.setHeader('WWW-Authenticate', 'Basic');
-      err.status = 401;
-      return next(err);
-    }
-  }
   else {
     // check if the cookie is signed one
-    // if (req.signedCookies.user === 'admin') {
-    if (req.session.user === 'admin') {
+    if (req.session.user === 'authenticated') {
       next();
     }
     else {
       var err = new Error('You are not authenticated!')
 
-      err.status = 401;
+      err.status = 403;
       return next(err);
     }
   }
@@ -101,8 +75,6 @@ app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/dishes', dishRouter);
 app.use('/promotions', promoRouter);
 app.use('/leaders', leaderRouter);
