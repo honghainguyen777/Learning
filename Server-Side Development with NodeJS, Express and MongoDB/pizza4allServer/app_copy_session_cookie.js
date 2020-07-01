@@ -18,8 +18,10 @@ var leaderRouter = require('./routes/leaderRouter');
 const mongoose = require('mongoose');
 
 const Dishes = require('./models/dishes');
-const url = config.mongoUrl;
-const connect = mongoose.connect(url);
+const url = config.url;
+const connect = mongoose.connect(url, {
+  userMongoClient: true
+});
 
 connect.then((db) => {
   console.log('Connected correctly to sever');
@@ -38,11 +40,34 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser('Motxx-Thexx-Gioix-Moixx'));
 
+// session middleware replacing the above cookie
+app.use(session({
+  name: 'session-id',
+  secret: 'Motxx-Thexx-Gioix-Moixx',
+  saveUninitialized: false,
+  resave: false,
+  store: new FileStore()
+}));
 
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+function auth(req, res, next) {
+
+  if (!req.user) {
+    var err = new Error('You are not authenticated!')
+    err.status = 401;
+    return next(err);
+    }
+  else {
+    next();
+  }
+}
+
+app.use(auth);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
