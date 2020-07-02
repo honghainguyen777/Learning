@@ -29,6 +29,20 @@ connect.then((db) => {
 
 var app = express();
 
+// all requests comming to the server, redirect it to the secure server
+app.all('*', (req, res, next) => {
+  // if the incomming request is already secure
+  if (req.secure) {
+    // do nothing
+    return next();
+  }
+  else {
+    // for actual web, consider to remove app.get('secPort')????
+    // 307 code = temporary redirect
+    res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
+  }
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
