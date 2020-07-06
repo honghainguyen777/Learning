@@ -1,0 +1,17 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "MongoDB": {
+    "host": "localhost",
+    "port": 27017,
+    "url": "",
+    "database": "pizza",
+    "password": "",
+    "name": "MongoDB",
+    "user": "",
+    "useNewUrlParser": true,
+    "connector": "mongodb"
+  }
+}
