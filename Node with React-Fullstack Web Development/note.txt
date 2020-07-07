@@ -1,0 +1,21 @@
+If the below error:
+[1] npm ERR! code ENOENT
+[1] npm ERR! syscall open
+[1] npm ERR! path C:\Users\Hong Hai Nguyen\Desktop\Software Development\Git\Learning\Node with React-Fullstack Web Development\server\client\package.json
+[1] npm ERR! errno -4058
+[1] npm ERR! enoent ENOENT: no such file or directory, open 'C:\Users\Hong Hai Nguyen\Desktop\Software Development\Git\Learning\Node with React-Fullstack Web Development\server\client\package.json'
+[1] npm ERR! enoent This is related to npm not being able to find a file.
+[1] npm ERR! enoent
+[1]
+[1] npm ERR! A complete log of this run can be found in:
+[1] npm ERR!     C:\Users\Hong Hai Nguyen\AppData\Roaming\npm-cache\_logs\2020-07-07T14_05_38_612Z-debug.log
+[1] npm ERR! code ELIFECYCLE
+[1] npm ERR! errno 4294963238
+[1] npm ERR! server@1.0.0 client: `npm run start --prefix client`
+[1] npm ERR! Exit status 4294963238
+[1] npm ERR!
+[1] npm ERR! Failed at the server@1.0.0 client script.
+[1] npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+--> Then go to the client folder and delete package-lock.json file and node_modules folder
+--> clean cache: npm cache clean --force
