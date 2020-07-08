@@ -9,11 +9,21 @@ module.exports = app => {
     );
     
     // get accesstoken responded from google auth and proceed it
-    app.get('/auth/google/callback', passport.authenticate('google'));
+    app.get(
+        // after user comes back from google auth flow
+        '/auth/google/callback',
+        // authenticate the user in the server side
+        passport.authenticate('google'),
+        // pass the request to the next handler
+        (req, res) => {
+            // redirect to surveys route
+            res.redirect('/surveys');
+        }
+    );
 
     app.get('/api/logout', (req, res) => {
         req.logout();
-        res.send(req.user);
+        res.redirect('/');
     });
 
     app.get('/api/current_user', (req, res) => {
