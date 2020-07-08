@@ -36,6 +36,23 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 
+// express behaviors in production environment
+if (process.env.NODE_ENV === 'production') {
+    // Express will serve up production assets
+    // like our main.js file or main.css file
+    // speakingly, if a request comes into express, express will look for some specific files
+    // if it is matched, then the below will serve
+    app.use(express.static('client/build'));
+    // if not, it will continue down the chain
+
+    // Express will serve up the index.html file
+    // if it doesn't recognize the route / no routes matched with the comming request
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    })
+}
+
 // environment varibale of PORT, if not, use port 5000
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);

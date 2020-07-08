@@ -1,0 +1,21 @@
+We need to customize the build process like this
+https://devcenter.heroku.com/articles/nodejs-support#customizing-the-build-process
+1. We need to add the following script in scripts of package.json file of server folder
+"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+2. git add . commit -> git push heroku master
+- if error, delete package-log.json files in both client and server sides
+
+or:
+1) delete any ".git" folders you may have
+
+2) rerun "git init" in terminal
+
+3) "git status" -- will return everything in your directory
+
+4) "git add ." -- to readd everything back
+
+5) `git commit -m "some commit info" `
+
+6) IMPORTANT! -- "git remote add heroku https://git.heroku.com/{your-repo-prefix}.git"
+
+7) "git push --force heroku master" ---You will likely fail to push if you don't force it, as the contents of your repo no longer contain the exact contents of the remote repo
