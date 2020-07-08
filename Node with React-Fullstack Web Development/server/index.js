@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
@@ -10,6 +11,10 @@ mongoose.connect(keys.mongoURI);
 
 // setup configuration 
 const app = express();
+
+// body-parser is used to parse incomming request bodies in a middleware
+// before your handlers available under the req.body property
+app.use(bodyParser.json());
 
 // make use of cookie inside of our application
 app.use(
@@ -26,8 +31,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // short version of: const authRoutes = require('./routes/authRoutes');
-// authRoutes(app);
+// authRoutes(app); so require(...) here returns a function 
+// --> (app) will be used in the returned function (see routes for how app is used)
 require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
 
 // environment varibale of PORT, if not, use port 5000
 const PORT = process.env.PORT || 5000;
