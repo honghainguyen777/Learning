@@ -19,3 +19,13 @@ or:
 6) IMPORTANT! -- "git remote add heroku https://git.heroku.com/{your-repo-prefix}.git"
 
 7) "git push --force heroku master" ---You will likely fail to push if you don't force it, as the contents of your repo no longer contain the exact contents of the remote repo
+
+
+*** If still not possible, go to package.json file. make sure "node": 10x version:
+"engines": {
+    "node": "10.15.3",
+    "npm": "6.4.1"
+  }
+
+*****************
+if google or stripe key does not work after the deployment, make sure to remove the .env.production file from gitignore file (client)
