@@ -10,7 +10,7 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate')
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-    app.get('/api/surveys/thanks', (req, res) => {
+    app.get('/api/surveys/:surveyId/:choice', (req, res) => {
         res.send('Thanks for voting!');
     });
 
@@ -38,7 +38,8 @@ module.exports = app => {
                     // if the above conditions matched, increase the choice (yes, no) by 1
                     $inc: { [choice]: 1},
                     // and set the responded to be true, $ here means the element that match (line up with $eleMatch)
-                    $set: { 'recipients.$.responded': true}
+                    $set: { 'recipients.$.responded': true},
+                    lastResponded: new Date()
                 }).exec(); // execute the query
             })
             .value();

@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const recipientSchema = new Schema({
     email: String,
-    responsed: {type: Boolean, default: false}
+    responded: {type: Boolean, default: false}
 });
 
 // we dont need to push this Schema on mongoose models
