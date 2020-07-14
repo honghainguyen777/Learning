@@ -1,0 +1,5 @@
+Frontend (easy): Impove the design of the survey list cards
+Backend (easy): Allow users to delete surveys that have been created
+Front+Back (medium): Allow users to specify the 'from_email' field on survey emails
+Front (medium): Allow client side sorting of surveys
+Front+Back (very hard): Allow surveys to be created in 'draft mode'
