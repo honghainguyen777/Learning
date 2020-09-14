@@ -8,6 +8,7 @@ const Spinner = props => {
   );
 };
 
+// provide default properties if the message prop is not provided in the parent component
 Spinner.defaultProps = {
   message: 'Loading...'
 };
