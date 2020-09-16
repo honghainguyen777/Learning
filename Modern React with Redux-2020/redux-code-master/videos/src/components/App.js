@@ -13,6 +13,7 @@ class App extends React.Component {
     this.onTermSubmit('buildings');
   }
 
+// term is added through SearchBar.js
   onTermSubmit = async term => {
     const response = await youtube.get('/search', {
       params: {
