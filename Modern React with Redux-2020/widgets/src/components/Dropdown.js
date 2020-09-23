@@ -6,7 +6,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
 
   // execute only once when a user clicks
   useEffect(() => {
-    document.body.addEventListener('click', (event) => {
+    const onBodyClick = (event) => {
       // after the element is rendered for the first time (form div below)
       // we can get the current reference of the div contains ref using ref.current
       // if event.target is inside of the current element, return without doring anything
@@ -15,7 +15,16 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
       }
 
       setOpen(false);
-    });
+    };
+    
+    document.body.addEventListener('click', onBodyClick);
+
+    // when we toggle/close the dropdown (in app.js), the dropdown element will be null
+    // therefore ref.current = null leading to error in the null.contains(...)
+    // to solve that, we create a cleanup function
+    return () => {
+      document.body.removeEventListener('click', onBodyClick);
+    };
   }, []);
 
   const renderedOptions = options.map((option) => {
