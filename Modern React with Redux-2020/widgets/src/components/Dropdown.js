@@ -16,7 +16,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
 
       setOpen(false);
     };
-    
+
     document.body.addEventListener('click', onBodyClick);
 
     // when we toggle/close the dropdown (in app.js), the dropdown element will be null
@@ -57,6 +57,7 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
           </div>
         </div>
       </div>
+      <p style={{ color: selected.value }}>This text is {selected.value}!</p>
     </div>
   );
 };
