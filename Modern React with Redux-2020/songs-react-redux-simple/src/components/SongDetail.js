@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+// we can use functional component
 const SongDetail = ({ song }) => {
+  // first render, song will be null
   if (!song) {
     return <div>Select a song</div>;
   }
@@ -16,6 +18,7 @@ const SongDetail = ({ song }) => {
     </div>)
 };
 
+// map the state to props to the above component
 const mapStateToProps = (state) => {
   return {song: state.selectedSong};
 };
