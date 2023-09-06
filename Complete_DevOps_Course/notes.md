@@ -78,3 +78,51 @@ Ops team will be flooded with such requests as CI process will generate faster a
 - Sync the automation codes with developer's source code.
 
 -> Integrate CI from DEV teams, automate deployment from Ops teams, and automate testing from QA teams
+
+## Prerequisites Info and Setup
+### Chocolatey for Windows
+- This tool is used to install softwares through command line
+- Installation: https://chocolatey.org/install
+- After that, we can install packages we want: https://community.chocolatey.org/packages
+
+### Homebrew for MacOS
+- Installation: https://docs.brew.sh/Installation
+- Search for packages: https://brew.sh/
+
+### Required softwares
+We can install one favorite editor or all
+#### Windows
+- Virtualbox: `choco install virtualbox -y`
+- Vagrant: `choco install vagrant -y`
+- Git: `choco install git -y` 
+- Corretto11jdk: `choco install corretto11jdk -y` (windows)
+- Maven: `choco install maven -y`
+- AwsCLI: `choco install awscli -y`
+- intellijidea-community: `choco install intellijidea-community -y` 
+- VSCode: `choco install vscode -y`
+- Sublime Text: `choco install sublimetext3.app -y`
+
+#### MacOS (not for M1/M2)
+- Execute commands: `echo -k > ~/.curlrc` and then `cat ~/.curlrc`
+- Virtualbox: `brew install --cask virtualbox `
+- Vagrant: `brew install --cask vagrant`
+- Vagrant Manager: `brew install --cask vagrant-manager`
+- Git: `brew install git`
+- OpenJDK: `brew install openjdk` and then `sudo ln -sfn $HOMEBREW_PREFIX/opt/openjdk@11/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk`
+- Maven: `brew install maven`
+- AwsCLI: `brew install awscli`
+- intellijidea-community: `brew install --cask intellij-idea`
+- Intellijidea-ce: `brew install --cask intellij-idea-ce`
+- VSCode: `brew install --cask visual-studio-code`
+- Sublime Text: `brew install --cask sublime-text`
+
+#### Ubuntu
+- Virtualbox: `sudo apt update`, then `sudo apt install virtualbox`
+- Vagrant: `curl -O https://releases.hashicorp.com/vagrant/2.2.9/vagrant_2.2.9_x86_64.deb` (or other newer/stable version), then `sudo apt install ./vagrant_2.2.9_x86_64.deb`
+- Git: `apt install git`
+- JDK: `sudo apt-get install openjdk-8-jdk` (or other stable version)
+- Maven: `sudo apt-get install maven`
+- awscli: `sudo apt-get install awscli`
+- Intellij community: `sudo snap install intellij-idea-community --classic`
+- Sublime Text: `sudo apt update`, then `sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common`, then `curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -`, then `sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"`, finally `sudo apt install sublime-text`
+
