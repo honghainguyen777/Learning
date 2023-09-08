@@ -1,5 +1,5 @@
 # DevOps courses: DevOps Beginners to Advanced + 20 Real Time Projects
-
+(Note: this is a personal note)
 ## Introduction
 ### Software Development Lifecycle (SDLC)
 1. Requirement Gathering
@@ -126,3 +126,75 @@ We can install one favorite editor or all
 - Intellij community: `sudo snap install intellij-idea-community --classic`
 - Sublime Text: `sudo apt update`, then `sudo apt install dirmngr gnupg apt-transport-https ca-certificates software-properties-common`, then `curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -`, then `sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"`, finally `sudo apt install sublime-text`
 
+## Virtual Machine Setup
+### Introduction
+One computer can run multiple OS at the same time parallelly (does job of many computers).
+- VMware brought in tools or created tools which could allow one computer to run multiple operating systems. These operating systems are isolated (in isolated environment). Each OS takes a partition of the physical resource of the physical machine. Each virtual machine needs its own OS.
+- Server Virtualization is the most common virtualization beside virtualization like network, storage ones.
+
+### Terminologies
+- Host OS - The operating system of the physical machine.
+- Guest OS - The operating system of the virtual machine.
+- VM - Virtual Machine
+- Snapshot - A way of taking backup of the virtual machine.
+- Hypervisor - The tool or the software that let us do or create virtual machine
+
+#### Types of Hypervisor
+- Type 1 - Bare metal operating or a bare metal hypervisor. It runs directly on the physical computer. This is only for production and it won't let us use this computer for other purposes. Eg. VMware esxi, Xen Hypervisor. Type 1 hypervisor can be clustered together so we can distribute our virtual machines on the cluster. So if one of the hypervisors goes down, the other can take or run our virtual machines. Hyper-V from Microsoft is the type-1 hypervisor.
+- Type 2 - Runs as a software which we can install on any computer for learning and testing purposes. Eg. Oracle virtualbox, vmware server.
+
+### Setup VMs
+Thumb Rule: If you want to automate something, make sure you know how to do it manually
+
+#### Setup VMs manually
+1. Prerequisites for windows
+- Enable Virtualization in BIOS - the setting can be with different names such as VTx, Secure virtual machine, virtualization based on the hardware
+- Disable other windows virtualization such as Microsoft HyperV, Windows Hypervisor platform, Windows Subsystem for linux, Docker Desktop, Virtual Machine Platform
+- Sometimes the VMs do not get IP address, we may have to: Power off our computer -> Reboot the Router -> Power on our computer
+
+2. Setup
+- Open Oracle VM VirtualBox
+- Create VM: click `New` -> enter a name -> Type `Linux` for Linux VM or `Ubuntu` for UbuntuVM -> Version `Red Hat (64-bit)` (linux) or `Ubuntu (64-bit)` for Ubuntu -> allocate memory and CPUs (1 CPU for Linux and 2 CPUs for Ubuntu)
+- Install OS: search for an OS (CentOS or Almalinux 9 ([link](https://repo.almalinux.org/almalinux/9/isos/x86_64/) and download `AlmaLinux-9.2-x86_64-boot.iso` file) ISO file or [ubuntu-link](https://releases.ubuntu.com/jammy/)) -> in VirtualBox, select the newly created Linux VM -> Setting -> Storage -> Click on the `Empty` of the `Controller: IDE` -> find the dropdown of the Attributes/Optical Drive -> `Choose a disk file...` -> Select the newly downloaded ISO file -> Check the `Live CD/DVD` -> Go to the `Network` tab -> select `Adapter 2` -> `Enable Network Adapter` -> `Attached to: Bridged Adapter` -> Name of the LAN/Wireless Controller/Adapter -> OK -> `Start` the VM -> start the installation process. Note: for `ubuntu`, follow the default option of steps, but make sure to enable `SSH` in one of the step.
+- Make sure to remove the installation ISO file
+- Type `ip addr show` to get the bridge adapter IP address in the Linux terminal
+- In the GitBash of the host machine, type `ssh <linux username>@<bridge adapter IP address>` to add the IP permanently to the list of host and login into the created Linux OS from the host machine (type `exit to exit`).
+
+3. VM management problem
+- OS installation that we need to go through while installing OS on a VM
+- Time consuming
+- Manual => Human Errors
+- Tough to replicate multi VMs
+- Need to document entire setup
+
+#### Setup VMs automatically
+##### Vagrant
+- Vagrant is a VM automation tool. It manages/automates VMs lifecycle such as creating, making changes and cleaning up.
+- It is not a replacement of any hypervisor like VMware or Oracle VM VirtualBox. It is on top of that.
+- No OS installation because Vagrant uses VM Images/Boxes that are available on Vagrant cloud.
+- Base on the VM boxes, we can create as many VMs as we want
+- All VM settings will be in a filed called `Vagrantfile`. We can manage all VM settings in the file like RAM, CPU, IP addresses. We can also do provisioning (means when the OS is completely booted, we want to execute some commands on it like setting up some servers, web servers, database servers, or anything)
+- Simple commands like `vagrant init <boxname>`, `vagrant up`, `vagrant ssh`, `vagrant halt`, `vagrant destroy`.
+
+##### Vagrant Architecture
+- Create a vagrant file -> run `vagrant up` -> Vagrant reads the `Vagrantfile` -> if the box is available in our local machine, it will take it, otherwise, it will download the image from Vagrant Cloud -> Contact the Hypervisor (Oracle Virtualbox/VMware working station etc...) and give the information of creating the VM -> the VM will be created.
+
+##### Step to create VMs with Vagrant
+- Create a folder in the physical computer
+- Create a `Vagrantfile` in the created folder
+- Issue the command `vagrant up`
+- Use `vagrant ssh` to login into the VM
+- Use `vagrant halt` to power off or `vagrant destroy` to delete the VM
+
+##### Exercise
+- Open `Git Bash` for Windows or Mac OS Terminal
+- Create a folder in an appropriate path: `mkdir /f/Studies/DevOps/<folder name>`
+- Enter the created folder: `cd /f/Studies/DevOps/<folder name>`
+- Create VM folders: `mkdir centos`, `mkdir ubuntu`, etc.
+- Enter a VM folder: `cd centos`
+- Go to [Vagrant Cloud app](https://app.vagrantup.com/boxes/search) to get a box if we don't have. Exp. find [Centos](https://app.vagrantup.com/eurolinux-vagrant/boxes/centos-stream-9), copy the name (`eurolinux-vagrant/centos-stream-9`) or [Ubuntu Jammy](https://app.vagrantup.com/ubuntu/boxes/jammy64) for `ubuntu/jammy64`
+- Enter to the VM folder GitBash (here `centos`), type `vagrant init eurolinux-vagrant/centos-stream-9`. To view the newly created  `Vagrantfile`, use `vat Vagrantfile`. If we realize that we got the wrong box after the file created, we can go to the line `config.vm.box = "eurolinux-vagrant/centos-stream-9"` to change the box name
+- Run `vagrant up`. If we get an error like `Error: schannel: next InitializeSecurityContext`, make sure to disable the antivirus, disconnect VPN or if you are in a corporate network, make sure you are using some other internet and try again `vagrant up`
+- We can run `vagrant box list` to see the downloaded boxes. `vagrant status` to check if any VM is running or not in the current folder or `vagrant global-status` for all running VMs. If you are using VirtualBox as the Supervisor, you can see the box is running when you open the Oracle VM VirtualBox Manager
+- To login into the VM, we run `vagrant ssh`. We can use `sudo -i` to switch to the root user if we need to.
+- use `vagrant halt` to power off the VM or `vagrant reload` to reboot the VM (Vagrant will look through the `Vagrantfile` to see if any changes and apply them. If we change the box name, we need to delete the VM using `vagrant destroy`)
