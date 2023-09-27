@@ -185,6 +185,7 @@ Thumb Rule: If you want to automate something, make sure you know how to do it m
 - Issue the command `vagrant up`
 - Use `vagrant ssh` to login into the VM
 - Use `vagrant halt` to power off or `vagrant destroy` to delete the VM
+- Note: MacOS M1/M2 does not work with Oracle Virtualbox, so we have to use `VMware Fusion`
 
 ##### Exercise
 - Open `Git Bash` for Windows or Mac OS Terminal
@@ -198,3 +199,421 @@ Thumb Rule: If you want to automate something, make sure you know how to do it m
 - We can run `vagrant box list` to see the downloaded boxes. `vagrant status` to check if any VM is running or not in the current folder or `vagrant global-status` for all running VMs. If you are using VirtualBox as the Supervisor, you can see the box is running when you open the Oracle VM VirtualBox Manager
 - To login into the VM, we run `vagrant ssh`. We can use `sudo -i` to switch to the root user if we need to.
 - use `vagrant halt` to power off the VM or `vagrant reload` to reboot the VM (Vagrant will look through the `Vagrantfile` to see if any changes and apply them. If we change the box name, we need to delete the VM using `vagrant destroy`)
+
+## Linux
+Open source software is the software with source code that anyone can inspect, modify, and enhance.
+
+Linux is an open-source operating system/kernel
+### Introduction
+#### Principles
+- Everything is a file (including hardware - mouse, keyboard, printer, etc.)
+- Small single purpose programs  (no bulky programs, or rally)
+- Ability to chain programs together for complex operations
+- Avoid Captive User Interface (we don't like the graphical software, otherwise it will be difficult to run things in the background or automate such things)
+- Configuration data stored in text file (so we can easily make changes to the files)
+#### Why Linux?
+- Open source
+- Community Support
+- Support wide variety of hardware (computers, laptops, servers, etc.)
+- Most servers runs on Linux
+- Automation (easier to do on Linux than on other OS like Windows)
+- Linux is considered as a secure operating system
+
+#### Architecture of Linux
+![Architecture of Linux](linux_architecture.png)
+- Linux Kernel which read or understand the hardware and can pass signals through to and from the hardware to Shell
+- From Shell we can execute commands and expect returns
+- We also have a lot of tools built around the Linux kernel starting from simple commands like `cd`, `vi`, `grep` to graphical softwares like browsers, PDF readers
+
+#### Popular Linux distributions
+- Popular Desktop Linux OS: Ubuntu Linux, Linux Mint, Arch Linux, Fedora, Debian, OpenSuse, etc.
+- Popular Server Linux OS: Red Hat Enterprise Linux (most stable and secure Linux OS, but not open source), Ubuntu Server, Centos, SUSE Enterprise Linux, Amazon Linux, etc.
+
+##### Most used Linux distributions currently in IT industry:
+- RPM based: Red Hat Enterprise Linux, Centos, Oracle Linux, Amazon Linux
+- Debian based: Ubuntu Sever, Kali Linux
+- What are the distinctions between RPM-based and Debian-based systems? From a user's perspective, there aren't significant differences between these two systems. RPM (Red Hat Package Manager) and DEB (Debian) formats are essentially both archive files with attached metadata. They share similarities in their complexity, reliance on hardcoded installation paths, and only exhibit subtle variations. DEB files serve as installation packages for Debian-based distributions, while RPM files are used for Red Hat-based distributions. For instance, Ubuntu utilizes Debian's package management system, relying on APT and DPKG, whereas Red Hat, CentOS, and Fedora use the older RPM-based package management system originally developed by Red Hat Linux.
+- DEB or .deb (Debian based softwares) is the extension of the Debian software package format and the most often used name for such binary packages. DEB was developed by Bedian. Exp. we can install Google Chrome using `dpkg -i google-chrome-stable_current_amd64.deb`
+- RPM, short for Red Hat Package Manager, is a comprehensive package management system associated with Red Hat-based software. The term 'RPM' can refer to multiple aspects, including the .rpm file format, files packaged in this format, software distributed within these packages, and the package manager software itself. RPM was originally designed for Linux distributions and serves as the fundamental package format adhered to by the Linux Standard Base. It was jointly developed by the Linux community and Red Hat. Exp. we can install Google Chrome using `rpm -ivh google-chrome-stable-57.0.2987.133-1.x86_64.rpm`
+
+### Directories in Linux
+- Home Directories: `/root`, `/home/username`
+- User Executables: `/bin`, `usr/bin`, `/usr/local/bin`
+- System Executables: `/sbin`, `usr/sbin`, `/usr/local/sbin`
+- Other Mountpoints (external devices such as USB): `/media`, `/mnt`
+- Configuration: `/etc`
+- Temporary Files: `/tmp`
+- Kernels and Bootloader: `/boot`
+- Server Data (eg. running website files, SQL directories): `/var`, `/srv`
+- System Information: `/proc`, `/sys`
+- Shared Libraries: `/lib`, `/usr/lib`, `/usr/local/lib`
+
+### Common Commands in Linux
+`<command> <options> <arguments>`; `<command> --help` to check all the options of the command
+- `whoami`: what user we are
+- `pwd`: current working directory
+- `ls -<options>`: list of all files and folders in the current directory (options: `l` - long listing format, one per line; `a` - list all hidden started with `.`; `F` - add a `/` classification at the end of each directory; `g` - list all with the group name; `i` - print index number of each; `m` - list all separated by comma `,`; `n` - list numeric `UID` and `GID` of owner and groups; `r` - list all in reverse order; `R` - short list all directories; `t` - sorted by modified time, started with the newest file)
+- `cat <path to file>/<filename`: read a file. Exp. `cat /etc/os-release` to read the release note and version info of the OS
+- `sudo -i`: switch to superuser
+- `cd <path to a directory>`: go to a directory. If we do `cd /` -> enter the root directory. `cd` alone or `cd ~` will bring we back to the home directory (`/root` for superuser and `/home/<username>` for the current user)
+- `clear` or ctrl + l: clear the terminal screen
+- `uptime`: read the information on the uptime of the OS
+- `free -m`: check information of the free memory
+- `exit`: if root user -> logout and go back to the current logged user. if user -> back to our physical OS
+- `mkdir <directory> <another directory> ...`: create one or more directories in the current directory. If we create a directory with an absolute path and some parts of the path do not exit, we need to add `-p` option to automatically create corresponding directories if not existed.
+- `touch <filename>.<extension> ...`: create a new file or more in the current directory. We can also create multiple file using `touch afile{1..10}.txt` to create 10 txt files (afile1.txt, afile2.txt, ..., afile10.txt)
+- `cp <file-to-copy> <path-to-destination>`: copy a file to a new directory. We can copy a file with absolute path (exp. `cp /home/vagrant/devfile.txt /home/vagrant/dev/`).
+- `cp -r <directory or absolute-path> <path-to-destination>`: copy a directory to a directory
+- `mv <file or file-with-absolute-path> <path-to-destination>`: move a file to a directory
+- `mv <directory or absolute-path> <path-to-destination>`: move a directory to a directory
+- `mv <old-filename/directory> <new-filename/directory`: we can use `mv` to rename a file or directory
+- use regular expression. exp. `mv *.txt textdir/` (`*` for everything)
+- `rm <filename>`: remove a file
+- `rm -r <directory>`: remove a directory
+- `rm -r *`: remove everything in the current directory or with `-rf` to force removal
+- `history`: see all commands that have been executed
+- `ln -s <original-file-path> <link-file-path>`: create a link/shortcut of a file to the destination folder (to remove the link we can use `rm` or `unlink` command)
+- `wc -l <file>`: counts the number of lines in a file
+- `find <path> -name <keyword>`: find in a directory (with path) all files in which their name contains the "keyword". There are other options such as `inum` - for searching a file with particular inode number; `type` - for searching a particular type of file; `-user` - for files whose owner is a particular user; `-group` - for files belonging to particular group
+- `tree <directory path>`: to see directory structure in tree format
+
+### Vim Editor
+#### Installation
+- inside the VM, execute `sudo yum install vim -y`
+#### Modes
+- Command Mode (default)
+- Insert mode (edit mode - by hitting the `I` when in the Command mode; `o` to start at the next line; hitting `ESC` to escape the mode)
+- Extended command mode (other operations such as saving, quitting - by hitting the `:` when in the Command mode, and type `w` for writing/saving, `q` for quitting the mode or exit the Vim editor; or `wq` to save and quit at the same time)
+#### Basic operations
+- `vim <filename>.<extension>`: to create a file or open an existing file. Exp: `vim firstfile.txt`
+
+In extended command mode (`ESC` + `:`):
+- `w` (`:w`): to save/write
+- `q` (`:q`): to quit/escape
+- `wq` (`:wq`): to save and quit at the same time
+- `wq!`: to save and quit forcefully
+- `q!` (`:q!`): to discard forcefully
+- `w!`: to save forcefully
+- `x`: to save and quit
+- `X`: to give password to the file and remove password
+- `n`: to go to line no. `n`
+- `se nu`: to set the line numbers to the file
+- `se nonu`: to remove the set line numbers
+
+In command mode:
+- `gg`: to go to the beginning of the page
+- `G`: to go to the end of the page
+- `w`: to move the cursor forward, word by word
+- `b`: to move the cursor backward, word by word
+- `nw`: to move the cursor forward to n words (SW)
+- `nb`: to mve the cursor backward to n words (SB)
+- `u`: to undo the last change (word)
+- `U`: to undo the previous change (entire line)
+- Ctr + `R`: to redo the changes
+- `yy`: to copy a line
+- `nyy`: to copy n lines (Syy or 4yy);
+- `p`: to paste line below the cursor position
+- `P`: to paste line above the cursor position
+- `dw`: to delete the word letter by letter (like backspace)
+- `x`: to delete the word letter by letter (like DEL key)
+- `dd`: to delete or cut entire line
+- `ndd`: to delete or cut n number of lines from cursor position
+- `/`: to search for a word in the line (`n` to go to the next search)
+
+### Types of files in Linux
+When we do `ls -l` to get long list of files and directories, one per line, we will see in each line with the following format `<first-character><permissions>...`. Base on the first character we can know the type of the files (directories are considered as files too)
+
+![File Type](file-types-screenshot.png)
+- `-` (Regular file): normal files such as text, data, or executable files
+- `d` (Directory): files (directories) that are lists of other files
+- `l` (Link): a shortcut that points to the location of the actual file
+- `c` (Special file): Mechanism used for input and output, such as files in `/dev`
+- `s` (Socket): a special file that provides inter-process networking protected by the file system's access control
+- `p` (Pipe): a special file that allows processes to communicate with each other without using network socket semantics
+- `b` (Block/Hard disk): a block file
+ 
+ We can find a file type using `file <filepath>`
+
+ ### Filter & Input/Output (IO) redirection command
+ #### `grep`
+ - `grep` command is used to find texts from any text input.
+ - Exp. we can find line which contains word as "root" from the `/etc/passwd` file (contains information about all the users in the system) using `grep root /etc/passwd` (note that Linux is case sensitive, to ignore case add `-i` option).
+ - If we want to look for a text in the entire current directory we can do `grep -i hello-world *`
+ - also look into all sub-directories `grep -iR hello-world *`.
+ - We can also show all content that does not contain a text using `grep -vi firewall <filename>`.
+
+ #### `less`
+ - helps to display file content page wise or line wise (like `Vim` but is used for reading the content only with some options)
+ - Exp: `less /etc/passwd`
+ - press `Enter` key to scroll down line by line
+ - use `d` to go to next page
+ - use `b` to go to the previous page
+ - use `/` to search for a word in the file
+ - use `v` to go vi mode where you can edit the file and oce you save it, you will back to `less` command
+
+ #### `more`
+ - exactly same like `less`
+ - with percentage to indicate the amount of the hidden content
+
+#### `head`
+- see the first few lines of a file (10 lines by default)
+- Exp: `head /etc/passwd`
+- `head -20 /etc/passwd`: to show the first 20 lines of the file
+
+#### `tail`
+- see the last few lines of a file (10 lines by default)
+- Exp: `tail /etc/passwd`
+- `tail -20 /etc/passwd`: to show the last 20 lines of the file
+- we can use `-f` option to show the dynamic content tracking any changes. For troubleshooting, it is good to read log files. We can use `CTRL` + `c` to quit the mode
+
+#### `cut`
+- used to extract specific columns or fields from lines of text files.
+- `cut OPTION... [FILE]...`
+- to delimit spaces and print the field in the case the content have proper separator or delimiter like `:`, `;`, `/`, `,`, etc.
+- `-f FIELDS`: specify the fields (columns) to cut. Fields are separated by a delimiter (by default, it's a tab character)
+- `-d DELIMITER`: specify the delimiter that separated fields. By default, it's a tab character
+- Exp: `cut -f 1,3 file.txt` = extracts the 1st and 3rd columns from `file.text` and displays the result
+- Exp2: `cut -d ',' -f 2,4 data.csv` = extracts the 2nd and 4th columns from a CSV file using a comma as the delimiter
+- Exp3: `cut -b 1-4 binary_file` = cuts the first 4 bytes from a binary file
+- Exp4: `cut -f 1-3,5- file.txt` = extracts fields 1 through 3 and field 5 from file.txt
+- Exp5: `cut -c 1,3- file.text` = displays all characters from file.txt except for the 2nd character
+
+#### `sed`
+- `sed` stands for stream editor, which is used to search a word in the file and replace it with the word required to be in the output
+- it will only modify the output, but there will be no change in the original file.
+- `sed 's/<search-for>/<replace-with>/g' <filename>`
+- Exp: `sed 's/Tech/Technologies/g' ktfile`
+- we need to use option `-i` to actually change the file: `sed -i 's/Tech/Technologies/g' ktfile`
+- we can do the same thing in Vim: `:%s/Tech/Technologies` (if the text appears multiple times in the same line, it will replace only the first appearance). We can use `g` for globally to replace everything that matches `:%s/Tech/Technology/g`
+
+#### Redirection 
+##### Output redirection (using `>` symbol)
+- It is used when we want to write/redirect the output to another file. If the file does not exit it creates the file, if it does, it overrides the content of the file
+- `command options arguments > file_destination`
+- Exp. `uptime > /tmp/sysinfo.txt`
+- If we want to append, we use double arrows: `command options arguments >> file_destination`
+- If we print noting to a file. the file will have nothing: `cat /etc/null > /temp/sysinfo.txt`
+- If we don't want to throw an error in the terminal but print it to a file: `freeeeeee -m 2> /temp/error.log`; `2` means standard error. `1` as default for standard output
+- If we want to redirect any kinds of outputs, we can use `&`: `free -m &>> /temp/error.log`
+
+##### Input redirection (using `<` symbol)
+- you may want a file to be the input for a command that normally wouldn't accept a file as an option.
+- Exp: `cat < filename.txt`: displays the contents of `filename.txt` using the `cat` command
+- Exp2: `grep "pattern" < data.txt`: searches for the "pattern" in the file `data.txt`
+- Exp3: `cat < file1.txt < file2.txt`: concatenates the contents of `file1.txt` and `file2.txt` and displays the result using the `cat` command
+- Exp4: `cat filename.txt | grep "pattern" | sort`: reads the contents of `filename.txt` with `cat`, then uses `grep` to search for a pattern, and finally sorts the results
+- Exp5: `./interactive_program < input.txt`: runs the `interactive_program` and provides it with the input form `input.txt` as if the user had entered it.
+- Exp6: we can use input redirection to read input from a file instead of from the terminal. The `input.txt` contents will be used as input to the `while` loop
+```bash
+# script.sh
+while read line; do
+    echo "Line: $line"
+done < input.txt
+```
+- If we can to pipe multiple command, we use `|`; exp. `ls | wc -l`, `ls | grep host` to search for filenames that contain "host" from the `ls` output; `tail -20 /var/log/messages | grep -i vagrant` to get the last 20 lines from the messages file and then find lines that contains `vagrant` word.
+
+###  Users and Groups
+- Users and groups are used to control access to files and resources
+
+#### Introduction
+- Users login to the system by supplying their username and password
+- Every file on the system is owned by a user and associated with a group
+- Every process has an owner and group affiliation and can only access the resources its owner or group can access
+- Every user of the system is assigned a unique user ID number (the UID)
+- Users name and UID are stored in `/etc/passwd`
+- User's password is stored in `/etc/shadow` in encrypted form
+- Users are assigned a home directory and a program that is ran when they login (usually a shell)
+- Users cannot read, write or execute each other's files without permission
+#### Types of users/groups
+- Whenever a user is created in Linux things created by default: A home directory (`/home/username`), a mail box (`/var/spool/mail`), unique UID & GID
+- Format of user line in a passwd file (`/etc/passwd`): `<username>:x:<userId>:<groupID>:<username>:<homedir>:<shell dir>`; example: `root:x:0:0:root:/root:/bin/bash` or `vagrant:x:1000:1000:vagrant:/home/vagrant:/bin/bash`; where `x` mean `link to shadow file`
+
+| TYPE | EXAMPLE | USER ID | GROUP ID | HOME DIR | SHELL |
+| ---- | ------- | ------- | -------- | -------- | ----- |
+| ROOT | root | 0 | 0 | /root | /bin/bash |
+| REGULAR | hai, vagrant | 1000 to 60000 | 1000 to 60000 | /home/username | /bin/bash |
+| SERVICE | ftp, ssh. apache | 1 to 999 | 1 to 999 | /var/ftp etc | /sbin/nologin |
+
+- Super user or root user: the most powerful user as the administrator
+- System user or service user: the users created by the softwares or applications. For example if we install Apache, it will create a user apache. These kinds of users are known as system users
+- Normal user: the users created by root user. They are regular users like Hai, Liam etc. Only the root user has the permission to create or remove a user
+- get info of users: `id <username>`
+- add an user: `useradd <username>`; not when we create a user with the username, a corresponding group with group name of username is also created.
+- add an user to an existing group: `usermod -aG <group name> <username>`; `-aG` means the supplementary group or the group
+- `passwd <username>`: set a password to a user
+- `su - <username>`: access/login into other user. If action is perform from the root user, no password is required to enter
+- `last`: see users who logged into the system in the past with timestamp
+- `who`: see the current logged-in users
+- `lsof -u <username>`: list all open files by a particular user (if not install, use `yum install lsof -y`)
+- `userdel <username>`: delete a user;
+- `userdel -r <username>`: delete a user and its home directory
+
+- Format of group line in group file (`/etc/group`): `<group name>:x:<groupId>:<user1 that belongs to the group>,<user2>,...`; Example: `root:x:0:`, 
+- add a group: `groupadd <group name>`
+- `groupdel <group name>`: delete a group
+
+### File Permissions
+#### Viewing Permissions from the Command-Line
+- File permissions may be viewed using `ls -l`
+- `ls -l /bin/login` -> `-rwxr-xr-x. 1 root root 19080 sep 16 15:90 /bin/login`
+- `r`: permission to read a file or list a directory's contents
+- `w`: permission to write to a file or create and remove files from a directory
+- `x`: permission execute a program or change into a directory and do a long listing of the directory
+- `-`: no permission (in place of the `r`, `w`, or `x`)
+- -> `<fileType><3 chars for owner><3 chars for group><3 chars for others>`: `-rwxrwxr-x` -> a regular-typed file in which the owner can read, write and execute, the group can read, write and execute, but the others can only read and execute but not write.
+
+#### Changing file ownership
+- Only root can change a file's owner
+- Only root or the owner can change a file's group
+- Ownership is changed with `chown`: `chown [-R] username file|directory ...`
+- Group-Ownership is changed with `chgrp`: `chgrp [-R] group_name file|directory...`
+
+#### Changing Permissions - Symbolic Method
+- To change access modes: `chmod [-OPTION] ... mode[,mode] file|directory ...`
+- `mode` includes: `u`, `g`, or `o` for user, group, and other; `+`, `-` or `=` for grant, deny or set; `r`, `w`, or `x` for read, write and execute
+- `OPTION` includes: `-R` - recursive; `-v` - verbose; `--reference` - reference another file for its mode
+- Exp: `chmod ugo+r file`: Grant read access to all (user, group, other) for `file`
+- Exp2: `chmod o-wx dir`: Deny write and execute to Other for `dir`
+- EXP3: `chmod +x filepath`: give execute permission to all users on the filepath
+
+#### Changing Permissions - Numeric Method
+- Uses a three-digit mode number: first digit specifies owner's permissions; second digit specifies group permissions; third digit represent other's permissions
+- Permissions are calculated by adding: `4` for read; `2` for write; `1` for execute
+- Exp: `chmod 640 myfile` - 6 = 4 (read) + 2 (write) -> owner can read and write, 4 -> the group can read, and 0 -> others can do nothing
+- Exp2: `chmod 755 myfile.sh` - 7 = 4 + 2 + 1 -> owner has full permissions, 5 = 4 + 1 -> the group can read and execute but can't write, same to others.
+
+### Sudo
+- `sudo` gives power to a normal user to execute commands which is owned by root user
+- If a user has already full sudoers privilege, it can become a root user anytime
+- `sudo -i`: changes from normal user to root user (only user in the `/etc/sudoers` file or `/etc/sudoers.d` directory can use this command to switch to root user)
+- Like a user, a group can also be added into sudoers list.
+- We can modify the sudoers list by: `sudo -i` -> `visudo` and change the user/group privilege specification to `ALL`. The sudoers file is `/etc/sudoers`
+![Privilege Specification](privilege_specification.png)
+- Every time we enter `sudo` command, it ask our own password. To turn that off, use `NOPASSWD` in the sudoers file. The line can be like `hai ALL=(ALL) NOPASSWD: ALL`
+- If we make an error in the `sudoers` file, the `sudo` commands won't work and only superuser can edit the file after that. For security purposes, servers don't have root password -> problems in running the servers. The better solution (safer) is instead of editing the `sudoers` file, we can go to the `/etc/sudoers.d` directory and create our own file. Like: `cd /etc/sudoers.d` -> `touch <username>` -> enter the file `vim <filename>` -> add `<username> ALL=(ALL) NOPASSWD: ALL`; We can add a group by: `%<group name> ALL=(ALL) NOPASSWD: ALL`
+
+### [Software Management](#software-management)
+#### Install a new package
+- Go to find the suitable package for the VM OS
+- Copy the download link
+- Go to the command line and type: `curl <download link> -o <saved filename>`; and then `rpm -ivh <package filename>` to install the downloaded file; exp: `curl https://rpmfind.net/linux/centos/7.9.2009/os/x86_64/Packages/tree-1.6.0-10.el7.x86_64.rpm -o tree-1.6.0-
+10.el7.x86_64.rpm` -> `rpm -ivh tree-1.6.0-10.el7.x86_64.rp` where `-ivh` = `i` for install, `v` for verbose, and `h` for human readable format
+- If we have problems with failed dependency if the package required other dependencies to be install previously (Linux principle: small and single purpose program), we can use other package managers like `YUM` (for RedHat)
+
+#### Manage packages
+- `wget <link>`: download file from a link
+- `curl <link>`: access file from a link
+- `curl <link> -o <output file>`: access file from a link and store o/p to a file.
+
+##### RedHat PRM commands
+- `rpm -ivh <rpm file>`: install the package
+- `rpm -Uvh <rpm file>`: upgrade a package
+- `rpm -ev <package name>`: Erase/remove an installed package
+- `rpm -ev --nodeps <package name>`: erase/remove an installed package without checking for dependencies
+- `rpm -qa`: display a list of all installed packages; or `rpm -qa | less`
+- `rpm -qi <package name>`: display installed information along with package version and short description
+- `rpm -qf </path/to/file>`: find out what package a file belongs to i.e. find what package owns the file
+- `rpm -qc <package name>`: display list of configuration files for a package
+- `rpm -qcf </path/to/file>`: display list of configuration files for a command
+- `rpm -qa --last`: display list of all recently installed RPMs
+- `rpm -qpR <.rpm-file>` or `rpm -qR <package>`: find out what dependencies a rpm file has
+
+##### CentOS_8 Commands
+- `dnf --help`: show the help
+- `dnf search <package>`: search for available repositories
+- `dnf install <package> -y`: install the package
+- `dnf reinstall <package>`: reinstall a package
+- `dnf remove <package>`: remove a package
+- `dnf update`: update all packages
+- `dnf update <package>`: update a package
+- `dnf grouplist`: list all available group packages
+- `dnf groupinstall "group name"`: install all the packages in a group
+- `dnf repolist`: list enabled dnf repositories
+- `dnf clean all`: clean dnf cache
+- `dnf history`: view history of dnf
+- `dnf info <package>`: show the information of package like version, size, source, repository, etc.
+
+##### YUM Commands
+YUM repositories are located at `/etc/yum.repose.d`
+- `yum -help`: show the help
+- `yum search <package>`: search for available repositories
+- `yum install <package> -y`: install the package
+- `yum reinstall <package>`: reinstall the package
+- `yum remove <package>`: remove a package
+- `yum update`: update all packages
+- `yum update <package>`: update a specific package
+- `yum grouplist`: list all available group packages
+- `yum groupinstall "group name>`: install all the packages in a group
+- `yum repolist`: list enabled YUM repositories
+- `rum install epel-release`: additional package repository that provides easy access to install packages for commonly used software
+- `yum clean -all`: clean yum cache
+- `yum history`: view history of yum
+- `yum info <package>`: show the information of package like version, size, source, repository, etc.
+
+##### Ubuntu20 Commands
+Apt repository files are located at `/ect/apt/sources.list` & `/etc/apt/sources.list.d`. Before installing packages in ubuntu with `apt` command, we should run `apt update` to refresh apt repository index
+- `apt search <package>`: search for available repositories
+- `apt install <package> -y`: install a package
+- `apt reinstall <package>`: reinstall a package
+- `apt remove <package>`: remove a package
+- `apt purge <package>`: remove everything related to the package - clean un-installation
+- `apt update`: update all packages
+- `apt update <package>`: update a package
+- `apt grouplist`: list all available group packages
+- `apt groupinstall "group name"`: install all the packages in a group
+- `apt repolist`: list enabled apt repositories
+- `apt clean all`: view history of apt
+- `apt show <package>`: show the information package like version, size, source, repository, etc.
+- `apt upgrade`: upgrade all packages
+- `apt upgrade <package>`: upgrade a package
+
+#### Services
+- `systemctl status <service package>`: shows the status of a service (exp. `httpd` as `systemctl status httpd`)
+- `systemctl start <service package>`: starts a service
+- `systemctl restart <service package>`: restarts a service
+- `systemctl reload <service package>`: reloads a service configuration
+- `systemctl enable <service package>`: starts a service at boot time
+- `systemctl disable <service package>`: stops a service at boot time
+- `systemctl is-active <service package>`: shows whether a service is active or not
+- `systemctl is-enabled <service package>`: shows whether a service is enabled or not
+
+#### Processes
+- `top`: shows all the dynamic processes based on their consumption
+- `ps aux`: similar to `top` but show things on the screen and quit (without watching the processes)
+- `ps -ef`: similar to `px aux` without the utilization, but the parent process (`PPID`), which process starts a process. For example: `PPID = 0` for some processes means that these processes were started by the boot (`0`)
+
+- We can use `systemctl` to start a services and its processes
+- `kill <PID - process ID>`: kill a process and its child processes
+- `kill -9 <PID - process ID>`: forcefully kill a process and its child processes
+- To kill multiple processes, we can output those process IDs and use those as inputs to the `xargs kill -9`; Exp: `ps -ef | grep httpd | grep -v 'grep' | awk ' {print $2}' xargs kill -9` -> `ps -ef` for listing all currently running processes with `-e` = lists all processes, `-f` = provides a full listing with more details; `grep httpd` for searching the list of processes generated by `ps -ef` for lines that contain the text `httpd`; `grep -v 'grep'` for filtering out the `grep` process itself from the list because when running `ps -ef | grep httpd`, it also includes a line for the `grep` command; `awk '{print $2}` for extracting the second field (eg. `PID`); `xargs kill -9` for killing all processes with the PIDs
+
+- the best way to remove zombie processes (do not consume resources) is to reboot the machine
+- Zombie vs Orphan processes: A child process that remains running even after its parent process is terminated or completed without waiting for the child process execution is called a Orphan process. Zombie process that has completed its task but still, it shows an entry in a process table
+
+#### Archiving
+There are many times where we need to archive files and directories. Especially when we want to take its backup or if we have a backup, we want to restore from that.
+
+- `tar -czvf <desired archive filename> <path-to-save-the-archived-file>` (Where `c` = create, `z` = zip or compress, `v` = verbose, `f` = file): to archive a log directory
+- Exp: `cd /var/log/` -> `tar -czvf jenkins_06122020.tar.gz jenkins` -> we will the see the tarball file in the `jenkins` directory with the name of `jenkins_06122020.tar.gz`. If we do `file jenkins_06122020.tar.gz` we will see that the file type is `gzip compressed data`
+
+- `tar -xzvf <archived filename>.tar.gz <path-to-extract-the-archived-file>`: extract/restore the archived directory
+- Exp: `mv jenkins_06122020.tar.gz /tmp/` -> `tar -xzvf jenkins_06122020.tar.gz jenkins`: the content of the `jenkins_06122020.tar.gz` file will be extracted to the `jenkins` folder within the current directory. We can do `tar -xzvf jenkins_06122020.tar.gz -C /<destination directory/` to extract the file to a desired directory
+
+- use `tar --help` to get more information and options
+
+##### ZIP commands
+The `zip` commands are used to simplify the uses of `tar`.
+- Install `zip` and `unzip`: `yum install zip unzip -y`
+
+- `zip -r <archived filename>.zip <directory-to-extract>`: `-r` for archiving
+- Exp: `zip -r jenkins_06122020.zip jenkins`
+
+- `unzip <archived filename>.zip`: to unzip/extract the archive to the current directory
+
+- more to use like zip/unzip but excluding files, etc. find in `zip/unzip --help`
+
+#### Ubuntu commands (Ubuntu operating system)
+Most of Ubuntu commands are the same as of CentOS. However, there are some differences.
+- When adding a new user using `useradd <username>`. If we switch to a user using `su - <username>`, it will throw an error `No directory, logging in with HOME=/` or `su: warning: cannot  change directory to /home/<username>: No such file or directory`. So when using `useradd`, it does not create HOME directory for the user. ---> We need to user `adduser` command instead. `adduser <username>`
+- When we want to edit the sudo file using `visudo` -> file will be opened in `GNU nano` instead of VIM editor. To use VIM editor as default, we can run `export EDITOR=vim`, that will temporary set the default editor to vim (it will reset when we shut the OS down or reboot it, or logout/login).
+- Differences in Software Management, Ubuntu (Debian-based) uses `dpkg` or `apt` instead of `rpm` or `yum`. Checkout [Software Management](#software-management).
