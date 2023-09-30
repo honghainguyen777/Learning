@@ -617,3 +617,170 @@ Most of Ubuntu commands are the same as of CentOS. However, there are some diffe
 - When adding a new user using `useradd <username>`. If we switch to a user using `su - <username>`, it will throw an error `No directory, logging in with HOME=/` or `su: warning: cannot  change directory to /home/<username>: No such file or directory`. So when using `useradd`, it does not create HOME directory for the user. ---> We need to user `adduser` command instead. `adduser <username>`
 - When we want to edit the sudo file using `visudo` -> file will be opened in `GNU nano` instead of VIM editor. To use VIM editor as default, we can run `export EDITOR=vim`, that will temporary set the default editor to vim (it will reset when we shut the OS down or reboot it, or logout/login).
 - Differences in Software Management, Ubuntu (Debian-based) uses `dpkg` or `apt` instead of `rpm` or `yum`. Checkout [Software Management](#software-management).
+
+## [Vagrant and Linux Servers](#vagrant-linux-servers)
+
+### Vagrant Sync Directory
+- A shared folder is mounted to the VM as: `<host folder> => <guest VM folder>`, this means that every changes in the host folder, the directory inside the VM will be also applied to the directory. Make sure to have the host folder exists, the guest directory can be created automatically.
+- Applying synced directory is for preserving files incase the VM is aborted or corrupted. We may also want to write scripts or programs in the host machine.
+- We can change the synced folder by editing the `Vagrantfile` at the line `config.vm.synced_folder "../data", "/vagrant_data"`. We can change the guest machine path (`/vagrant_data`) to other path like `/opt/scripts` to write some scripts in the VM.
+- Synced folder for Windows path: `config.vm.synced_folder "F:\\scripts\\shellscripts",  "/opt/scripts"`
+- Synced folder for MacOS path: `config.vm.synced_folder "/Users/hai/Desktop/scripts", "/opt/scripts"`
+
+### Provisioning
+Provisioning in Vagrant means executing commands or scripts when the VM comes up first time or if the VM is already running, we can apply provisioning to execute our commands or scripts.
+- Provisioning is the process of configuring and deploying an information technology (IT) system resource either locally or in the cloud. In enterprise computing, the term is often associated with virtual machines (VMs) and cloud resource instances.
+
+In a `Vagrantfile`, we may find:
+```bash
+config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get install -y apache2
+SHELL
+```
+- where `shell` is a provisioner. There are other provisioners like Ansible, Docker, Chef, Puppet, etc.
+- `inline` is where we need to give commands. We can replace it with `script` where we can mention the path of the script
+- `<<`: input redirection
+- `-SHELL <commands> SHELL`: place to add commands
+- Example:
+```bash
+config.vm.provision "shell", inline: <<-SHELL
+    yum install httpd wget unzip git -y
+    mkdir /opt/devopsdir
+    free -m
+    uptime
+SHELL
+```
+- Note no command in provisioning section should be interactive or asking questions. We use `-y` in the above example.
+- Provisioning runs only one time when the VM is firstly up (in other technologies, provisioning is called as bootstrapping, meaning after booting the first time, execute the commands on the scripts). If we do `vagrant reload`, there will be no output to be shown. So if the VM is already running or exist (Vm or instance is already created), the commands will not be executed.
+- To run the commands in the provision for an existing VM, we need to run `vagrant reload/up --provision`
+
+### Website Setup
+- Install `httpd` or `apache2`: `yum install httpd -y`
+- install other packages like `wget`, `vim`, `zip`, `unzip`
+- Start the `httpd` service: `systemctl start httpd`
+- Enable the `httpd` service: `systemctl enable httpd` (to start the service at boot time)
+
+- `html` need to be placed in the `/var/www/html/` directory
+
+Example:
+- create an html file: `vim index.html`
+- Restart the server: `systemctl restart httpd`
+
+### Wordpress Setup
+- Documentation: https://ubuntu.com/tutorials/install-and-configure-wordpress
+
+
+### Automate Website Setup
+- We put all the manual commands into the provisioning section of the `Vagrantfile`
+- Infrastructure as code (IaC) is the process of managing and provisioning infrastructure (networks, virtual machines, load balancers, and connection topology) through CODE/Config Files.
+
+Exp:
+```bash
+config.vm.provision "shell", inline: <<-SHELL
+    yum install httpd wget unzip vim -y
+    systemctl start httpd
+    systemctl enabled httpd
+    mkdir -p /tmp/finance
+    wget https://www.tooplate.com/zip-templates/2135_mini_finance.zip
+    unzip -o 2135_mini_finance.zip
+    cp -r 2135_mini_finance/* /var/www/html/
+    systemctl restart httpd
+    cd /temp/
+    rm -rf /tmp/finance
+SHELL
+```
+
+Or for Wordpress setup
+```bash
+ config.vm.provision "shell", inline: <<-SHELL
+    sudo apt update
+    sudo apt install apache2 \
+                    ghostscript \
+                    libapache2-mod-php \
+                    mysql-server \
+                    php \
+                    php-bcmath \
+                    php-curl \
+                    php-imagick \
+                    php-intl \
+                    php-json \
+                    php-mbstring \
+                    php-mysql \
+                    php-xml \
+                    php-zip -y
+    
+    sudo mkdir -p /srv/www
+    sudo chown www-data: /srv/www
+    curl https://wordpress.org/latest.tar.gz | sudo -u www-data tar zx -C /srv/www
+    
+    cat > /etc/apache2/sites-available/wordpress.conf <<EOF
+<VirtualHost *:80>
+  DocumentRoot /srv/www/wordpress
+  <Directory /srv/www/wordpress>
+      Options FollowSymLinks
+      AllowOverride Limit Options FileInfo
+      DirectoryIndex index.php
+      Require all granted
+  </Directory>
+  <Directory /srv/www/wordpress/wp-content>
+      Options FollowSymLinks
+      Require all granted
+  </Directory>
+</VirtualHost>
+EOF
+    
+    sudo a2ensite wordpress
+    sudo a2enmod rewrite
+    sudo a2dissite 000-default
+    
+    mysql -u root -e 'CREATE DATABASE wordpress;'
+    mysql -u root -e 'CREATE USER wordpress@localhost IDENTIFIED BY "admin123";'
+    mysql -u root -e 'GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER ON wordpress.* TO wordpress@localhost;'
+    mysql -u root -e 'FLUSH PRIVILEGES;'
+    
+    sudo -u www-data cp /srv/www/wordpress/wp-config-sample.php /srv/www/wordpress/wp-config.php
+    sudo -u www-data sed -i 's/database_name_here/wordpress/' /srv/www/wordpress/wp-config.php
+    sudo -u www-data sed -i 's/username_here/wordpress/' /srv/www/wordpress/wp-config.php
+    sudo -u www-data sed -i 's/password_here/admin123/' /srv/www/wordpress/wp-config.php
+    
+    systemctl restart mysql
+    systemctl restart apache2
+  SHELL
+```
+
+### Multi VM Vagrantfile
+We can define multiple VMs in a Vagrantfile
+```bash
+Vagrant.configure("2") do |config|
+    # Define the base box for each VM
+    config.vm.box = "ubuntu/focal64" # Ubuntu 20.04 for web01 and web02
+    config.vm.box_url = "https://vagrantcloud.com/ubuntu/boxes/focal64"
+  
+    config.vm.define "web01" do |web01| 
+        web01.vm.network "private_network", ip: "192.168.56.10"
+        web01.vm.hostname = "web01"
+    end
+  
+    config.vm.define "web02" do |web02|
+      web02.vm.network "private_network", ip: "192.168.56.11"
+      web02.vm.hostname = "web02"
+    end
+  
+    config.vm.define "db01" do |db01|
+      config.vm.box = "eurolinux-vagrant/centos-stream-9"
+  
+      db01.vm.network "private_network", ip: "192.168.56.12"
+      db01.vm.hostname = "db01"
+  
+      # Provisioning for db01
+      db01.vm.provision "shell", inline: <<-SHELL
+        yum install -y wget unzip mariadb-server
+        systemctl start mariadb
+        systemct enable mariadb
+      SHELL
+    end
+end
+```
+
+Since we have multiple VMs, to login into each VM we use `vagrant ssh <vm-name>`; same for `up`, `destroy`, `halt`, etc. Use `vagrant destroy --force` to destroy all the VMs at once.
