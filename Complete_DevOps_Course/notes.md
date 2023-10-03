@@ -966,3 +966,326 @@ end
 - `docker stop <container name or ID>`: Stop a running container
 - `docker rm <container name or ID>`: Remove a container
 - `docker rmi <image ID>`: remove a docker image
+
+## Bash Scripting
+
+### First script
+- Run an VM
+- install `vim` if neccessary
+- `vim firstscript.sh`: to create a shell script file
+
+```sh
+#!/bin/bash
+# The first line gives or tells the path of the interpreter, here /bin/bash. If it is Python script, we have the path of Python interpreter, it may be /usr/bin/python3
+
+echo "Welcome to bash script."
+echo
+### This script prints system info ###
+echo "############################################"
+echo "The uptime of the system is: "
+uptime
+
+### Checking system uptime ###
+echo "############################################"
+echo "Memory Utilization"
+free -m
+
+### Disk Utilization ###
+echo "############################################"
+echo "Disk Utilization"
+df -h
+```
+
+- To run a script, we use the absolute or relative path with the script filename. Now if we do `./firstscript.sh`, we will get `Permission denied`, and if we check `ls -l` we will see that the script file has no execution permission `-rw-r--r--`. So we need to change the permissions
+- `chmod +x firstscript.sh`: enable execution permission for all users
+
+### Sample script to deploy a website
+- `vim -q /opt/scripts/websetup.sh`
+```sh
+#!/bin/bash
+
+# Variable Declaration
+PACKAGE = "wget unzip httpd"
+SVC="httpd"
+URL="https://www.tooplate.com/zip-templates/2137_barista_cafe.zip"
+ART_NAME="2137_barista_cafe"
+TEMPDIR="/tmp/webfiles"
+
+# Installing Dependencies
+echo "############################################"
+echo "Installing packages."
+echo "############################################"
+sudo yum install $PACKAGE -y > /dev/null
+echo
+
+# Start & Enable Service
+echo "############################################"
+echo "Start & Enable HTTPD Service"
+echo "############################################"
+sudo systemctl start $SVC
+sudo systemctl enable $SVC
+echo
+
+# Creating Temp Directory
+echo "############################################"
+echo "Creating Temp Directory"
+echo "############################################"
+mkdir -p $TEMPDIR
+cd $TEMPDIR
+echo
+
+
+wget $URL
+unzip $ART_NAME.zip
+sudo cp -r $ART_NAME/* /var/www/html/
+
+# Bounce Service
+echo "############################################"
+echo "Restarting HTTPD Service"
+echo "############################################"
+systemctl restart $SVC
+
+# Clean Up
+echo "############################################"
+echo "Removing Temporary Files"
+echo "############################################"
+rm -rf $TEMPDIR
+
+sudo systemctl status $SVC
+ls /var/www/html/
+```
+
+- `chmod +x /opt/scripts/websetup.sh`
+- `/opt/scripts/websetup.sh`
+
+### Command Line Arguments
+We can use $1 to $9 for passing arguments to the script.
+```bash
+echo $0
+echo $1
+echo $2
+echo $3
+```
+If we run the above script `./args_test.sh`, we will get an output of `./args_test.sh`. It is because the `$0`, `$1`, `$2`, `$3` are the actual arguments that passed when executing the script, here `$0 = ./args_test.sh` and the others are undefined/empty. The `$<number>` is not the number 0, 1, 2, 3,... but the first, second, third, fouth,... arguments.
+
+Now if we run `./args_test.sh hello world devops` -> `$0 = ./args_test.sh`, `$1 = hello`, `$2 = world`, `$3 = devops`.
+
+Applying to the above example:
+```bash
+#!/bin/bash
+
+# Variable Declaration
+PACKAGE = "wget unzip httpd"
+SVC="httpd"
+# URL="https://www.tooplate.com/zip-templates/2137_barista_cafe.zip"
+URL=$1 # or replace all the $URL with $1
+# ART_NAME="2137_barista_cafe"
+ART_NAME=$2 # or replace all the $URL with $2
+TEMPDIR="/tmp/webfiles"
+
+....
+```
+And when we run the script: `./opt/scripts/websetup.sh https://www.tooplate.com/zip-templates/2137_barista_cafe.zip 2137_barista_cafe`. The two last arguments will be taken into account inside the script.
+
+### System Variables
+- `$#`: How many arguments were passed to the Bash script
+- `$@`: All the arguments supplied to the Bash script
+- `$?`: The exit status of the most recently run process
+- `$$`: The process ID of the current script
+- `$USER`: the username of the user running the script
+- `$HOSTNAME`: The hostname of the machine the script is running on
+- `$SECONDS`: The number of seconds since the script was started
+- `$RANDOM`: returns ta different random number each time it is referred to
+- `$LINENO`: Returns the current line number of the Bash script
+
+Example: we run `free -m` -> `echo $?` -> output `0` as last command was successfully executed; now if the command is failed as `freeeeeee -m` -> `echo $?` -> output `127` as last command failed (non-zero)
+
+### Command Substitution
+Command substitution allows you to capture the output of a command and use it as part of another command or store it in a variable. This enables you to incorporate the result of one command as an argument, parameter, or operand for another command or operation within a script.
+- Using Backticks \``: 
+```bash
+result=`command`
+# file = `ls`
+
+# Exp2
+current_date=`date`
+echo "Today's date is: $current_date"
+
+# Exp3
+file_count=`ls -l | wc -l`
+echo "There are $file_count files in the current directory."
+
+# Exp4
+echo "Today's date is: `date`"
+```
+- Using \$(...): 
+```bash
+result=$(command)
+
+# Exp1
+current_date=$(date)
+echo "Today's date is: $current_date"
+
+# Exp2
+file_count=$(ls -l | wc -l)
+echo "There are $file_count files in the current directory."
+
+# Exp3
+filename="file_$(date +%Y-%m-%d).txt"
+touch "$filename"
+
+# Exp4
+greeting="Hello, $(whoami)!"
+echo "$greeting"
+
+# Exp5
+result=$((5 + $(echo 7)))
+echo "The result is $result"
+```
+
+### Exporting Variables
+Exporting variables in Bash scripting allows you to make a variable available to child processes, including subshells and subsequently executed scripts or commands. When you export a variable, it becomes part of the environment of child processes, ensuring they can access and use its value.
+- `export <VARIABLE_NAME>=<value>` in a parent shell
+- `This is a value of <VARIABLE_NAME>: $<VARIABLE_NAME>` in a bash script
+- Run the bash script file, the command will create a subshell and run the above command. The subshell will have access to `<VARIABLE_NAME>`
+
+Exp:
+```bash
+# Export a variable
+export MY_VARIABLE="Hello, World!"
+
+# Run a script in a subshell
+( 
+  echo "Subshell: $MY_VARIABLE" 
+)
+
+# Output:
+# Subshell: Hello, World!
+```
+
+To make a variable permanent for the current user, we need to place our export command and variable in `.bashrc` (a hidden file if we do `ls -a` in the root directory). To make the variables permanently for all users, we can add the variables to `/etc/profile`. If we have the same variable with a different value in `.bashrc` and `/etc/profile`, the value in `.bashrc` will override the one in `/etc/profile`
+
+We can do `vim .bashrc` to edit the file:
+```bash
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# New variables here
+export greeting="Hello, World"
+```
+We then save the file, logout from the current terminal, login again -> the edited `.bashrc` will be applied. We can the use the `greeting` variable: `echo $greeting`
+
+### User Input
+Sometimes we need the input from users. we can use `read <variable>`
+```bash
+echo "Enter your skills:"
+# A prompt will ask the user to enter a string
+read SKILL
+
+echo "Your $SKILL skill is ..."
+
+read -p 'Username: ' USR # -p is for prompt
+read -sp 'Password: ' pass # -s is for suppressing the input, the string is not visible when typing
+```
+
+### Conditions
+`if [<some test>] then <commands> fi`
+```bash
+#!/bin/bash
+
+# Exp 1
+read -p "Enter a number: " NUM
+echo
+
+if [ $NUM -gt 100 ]
+then
+  echo "Your number is greater than 100"
+elif [ $NUM -eq 100 ]
+then
+  echo "Your number is equal to 100"
+else
+  echo "Your number is less than 100"
+fi
+
+# Exp 2
+value=$(ip addr show | grep -v LOOPBACK | grep -ic mtu)
+if [ $value -eq 1 ]
+then
+  echo "1 Active Network Interface found."
+elif [ $value -gt 1 ]
+then
+  echo "Found Multiple active Interfaces."
+else
+  echo "No active interface found."
+fi
+
+# Exp 3 - Monitoring Script
+ls /var/run/httpd/httpd.pid &> /dev/null
+if [ $? -eq 0 ]
+then
+  echo "httpd process is running"
+else
+  echo "httpd process is NOT running"
+  echo "Starting the process"
+  systemctl start httpd
+  if [ $? -eq 0]
+  then
+    echo "Process started successfully."
+  else
+    echo "Process started unsuccessfully. Please contact the admin."
+  fi
+fi
+```
+- `-gt` = greater than
+- `-eq` = equal
+- `-ne` = not equal
+- `-lt` = less than
+- `-le`: less than or equal to
+- `-ge`: greater than or equal to
+- `! <Expression>`: The Expression is false
+- `-n <STRING>`: The length of STRING is greater than zero
+- `-z <STRING>`: The length of STRING is zero
+- `STRING1 = STRING2`: STRING1 is equal to STRING2
+- `STRING1 != STRING2`: STRING1 is not equal to STRING2
+- `-d FILE`: FILE exists and is a directory
+- `-e FILE`: FILE exists
+- `-r FILE`: FILE exists and the read permission is granted
+- `-s FILE`: FILE exists and it's size is greater than zero
+- `-w FILE`: FILE and the write permission is granted
+- `-x FILE`: FILE and the execute permission is granted
+
+### Loops
+```bash
+#!/bin/bash
+
+LANGUAGES="java .net python ruby php"
+for VAR1 in $LANGUAGES
+do
+  echo "Value of VAR1 is $VAR1"
+  date
+done
+
+for ( c=1; c<=5; c++ )
+do  
+   echo "Welcome $c times"
+done
+
+
+counter=0
+while [ $counter -lt 5 ]
+do
+  echo "Looping..."
+  echo "value of c is $couter."
+  counter=$(( $counter + 1 ))
+done
+```
