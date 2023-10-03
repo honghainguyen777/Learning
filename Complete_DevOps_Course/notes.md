@@ -784,3 +784,132 @@ end
 ```
 
 Since we have multiple VMs, to login into each VM we use `vagrant ssh <vm-name>`; same for `up`, `destroy`, `halt`, etc. Use `vagrant destroy --force` to destroy all the VMs at once.
+
+## Networking
+A Computer Network is a communication between two or more network interfaces. Every device we are using on the network has an IP address assigned to its network interface.
+
+Computer Network contains two or more computers/devices. Internet cables or wireless networks are used to link these computers/devices, each of these is connected to the network interface card (NIC). To connect multiple network interfaces together, routers or softwares called operating systems (OS) are required.
+### OSI Model
+#### Requirement
+- People around the world uses computer network to communicate with each other.
+- For worldwide data communication, systems must be developed which are compatible to communicate with each other.
+- There should be standard communciation methods or devices
+
+#### OSI Model
+- ISO (International Organization of Standardization) has developed this OSI standard.
+- This communication model is called as Open System Interconnection (OSI)
+- ISO-OSI model is a seven layer architecture developed in 1984
+- Layers: 1. Physical (eg. cables); 2. Data link; 3. Network; 4. Transport; 5. Session; 6. Presentation; 7. Application (eg. browsers or apps);
+
+1. The physical layer (lowest layer) in the OSI Model is responsible for the actual physical connection/communication between devices. The information is in `bits` (1s & 0s)
+2. The data link layer receives the bit data from the physical one. It is used to facilitate the reliable transmission of data over a physical network medium. The Data Link Layer is responsible for addressing, framing, error detection, and controlling access to the physical medium. It doesn't extend beyond the local network and does not provide end-to-end communication across multiple networks. The data is presented to the Network layer. Data is represented in `frames`
+3. The network layer is used to provide routing and forwarding of data between different networks. It enables end-to-end communication across multiple network segments or subnets. The data is essembled in `packets`. The sender's and receiver's IP address are placed in the header by the layer.
+4. The Transport layer is used to provide end-to-end communication services for data transfer between two devices or hosts on a network. It ensures that data is reliably and efficiently delivered from the source to the destination while handling issues like data segmentation, flow control, and error recovery. Data is represented in `segments`
+5. The Session layer is used to establish, manage, and terminate communication sessions or connections between two devices on a network. It helps coordinate and synchronize data exchange between applications running on different hosts.
+6. The Presentation layer is used to handle the translation, encryption, and compression of data for secure and efficient communication between devices. It acts as an intermediary layer between the Application Layer (Layer 7) and the Session Layer (Layer 5).
+7. The Application layer is the closest to end-users and is responsible for providing communication services and network services directly to user applications. It interacts with software applications and provides a platform-independent interface for application-level communication across a network.
+
+| OSI Model layer | DoD Model | Protocols | Devices/Apps |
+| --------------- | --------- | --------- | ------------ |
+| 5, 6 , 7 | application | dns, dhcp, ntp, snmp, https, ftp, ssh, telnet, http, pop3... | web server, mail server, browser, mail client... |
+| 4 | host-to-host | tcp / udp | gateway |
+| 3 | internet | ip, icmp, igmp | router, firewall layer 3 switch |
+| 2 | network access | arp (mac), rarp | bridge layer 2 switch |
+| 1 | network access | ethernet, token ring | hub |
+
+- The basic elements of a layered model are: services, protocols, and interfaces:
+1. A service is a set of actions that a layer offers to another (higher) layer.
+2. A protocal is a set of rules that a layer uses to exchange information.
+3. A interface is communication between the layers
+
+#### Exp. Sending - Receiving Letters
+- The letter is written, put in an envelop and dropped in mailbox by the sender
+- The letter is carried from the mailbox to a post office
+- The letter is delivered to a carrier by the post office.
+- The letter is delivered from the carrier to the post office.
+- The letter is carried from the post office to the mailbox
+- The letter is picked up, removed from the envelop, and read by the receiver
+
+#### Exp. Sending - Receiving Data
+- The data is inputed/uploaded to the apps/softwares/OS. The send button is clicked.
+- The data is processed and transfered through the seven layers starting from layer 7 to layer 2
+- The proccessed data will be transfer to the reciever via layer 1
+- The proccessed data is re-processed and transfer from layer 2 of the reciever to layer 7
+- The data is read by the reciever
+
+### Understanding Networks & IP
+#### Classification of network by geography
+The distance between device interfaces defines the geography classification
+
+- LAN (Local Area Network): Network interfaces are very close to each other like computers in a room that are connected together through some devices or cables.
+- WAN (Wide Area Network): Network interfaces are far away from each other like a computer/cellphone accessing a website that is hosted in somewhere in European data centers. we are accessing that over the internet
+- MAN (Metropolitan Area Network): like a metropolitan city that has computers connected in the same network such as Metro trains computer network system.
+- CAN (Campus Area Network): like office campus or college campus where we have computers connected together in few acres of land. It is also called as Intranet
+- PAN (Personal Area Network): like Bluetool hostpot as our own personal network, which has a very small range.
+
+#### Switches
+Switches facilitate the sharing of resources by connecting together all the devices, including computers, printers, and servers, in a small business network. 
+
+Exp: If two nodes (a computer and a printer) need to communicate with each other. The computer sends data to the switch. The switch knows that the computer wants to communicate with the printer. So the switch connects the computer to the printer.
+
+#### Routers
+A router receives and sends data on computer networks. Routers are sometimes confused with network hubs, modems, or network switches. However, routers can combine Multiple Networks together. At home, we can have a wifi router, that router can contain a switch so all the devices can communicate with each other. And it can be a modem too.
+
+#### IPv4 Address
+IPv4 addresses are in the format of `xxx.xxx.xxx.xxx`. In total, it is 32 bit (8 + 8 + 8 + 8) binary number. An IPv4 address contains 4 octets (1 octet = 8 bits) -> `<1st octet>.<2nd octet>.<3nd octet>.<4th octet>`
+
+- IP has a range from 0.0.0.0 to 255.255.255.255
+- We have public IPs for internet communication and private IPs for local network design
+- Private IP ranges:
+1. Class A: 10.0.0.0 - 10.255.255.255
+2. Class B: 172.16.0.0 - 172.31.255.255
+3. Class C: 192.168.0.0 - 192.168.255.255
+
+#### Protocols
+Protocol in general is a set of rules. In the networking and communication area, a protocol is the formatl specification that defines the procedures that must be followed when transmitting or receiving data. Protocols define the format, timing, sequence, and error checking used on the network.
+
+- TCP protocol:
+  -  Reliable Protocol
+  - Connection oriented
+  - Performs three ways handshake
+  - Provision for error detection and retransmission
+  - Most applications use TCP for reliable and guaranteed transmission
+  - FTP, HTTP, HTTPS
+- UDP
+  - Unreliable protocol
+  - Connectionless
+  - Much faster than TCP
+  - No acknowledgement waits
+  - No proper sequencing of data units
+  - Suitable for applications where speed matters more than reliablity
+  - DNS, DHCP, TFTP, ARP, RARP
+
+##### Protocols & Port Numbers
+The Internet Assigned Numbers Authority (IANA) maintains the [full list](https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml) of port numbers and protocols assigned to them.
+- Ports 20 and 21: File Transfer Protocol (FTP). FTP is for transferring files between a client and a server.
+- Port 22: Secure Shell (SSH). SSH is one of many tunneling protocols that create secure network connections.
+- Port 25: Historically, Simple Mail Transfer Protocol (SMTP). SMTP is used for email.
+-Port 53: Domain Name System (DNS). DNS is an essential process for the modern Internet; it matches human-readable domain names to machine-readable IP addresses, enabling users to load websites and applications without memorizing a long list of IP addresses.
+- Port 80: Hypertext Transfer Protocol (HTTP). HTTP is the protocol that makes the World Wide Web possible.
+- Port 123: Network Time Protocol (NTP). NTP allows computer clocks to sync with each other, a process that is essential for encryption.
+- Port 179: Border Gateway Protocol (BGP). BGP is essential for establishing efficient routes between the large networks that make up the Internet (these large networks are called autonomous systems). Autonomous systems use BGP to broadcast which IP addresses they control.
+- Port 443: HTTP Secure (HTTPS). HTTPS is the secure and encrypted version of HTTP. All HTTPS web traffic goes to port 443. Network services that use HTTPS for encryption, such as DNS over HTTPS, also connect at this port.
+- Port 500: Internet Security Association and Key Management Protocol (ISAKMP), which is part of the process of setting up secure IPsec connections.
+- Port 587: Modern, secure SMTP that uses encryption.
+- Port 3389: Remote Desktop Protocol (RDP). RDP enables users to remotely connect to their desktop computers from another device.
+
+#### Networking Commands
+- `ifconfig` or `ip addr show`: show information of all active network interfaces
+- `ping <ip address>`: Test the connection to an IP. In Linux, the command lines will keep pinging the IP.
+- `ping <ip address> -c 4`: we can use `-c 4` option to specify the number of ICMP echo requests to send. Here 4 echo requests.
+- We can use a hostname to ping like `ping <hostname>`. To do that, we need a DNS server or specify the IP and hostname in the `/etc/hosts` file. We can add `192.168.40.12 <hostname>`.
+- `tracert <domain name>`: Tracing route to a domain with hops. `tracert www.google.com`. We can see where (hops) the request goes throw until it hits the destination. Hops could be a router, DNS server, servers,... This command is used to check the latency between our computer and the target machine. This command may not work in VMs
+- `netstat -antp`: show all the TCP open ports in the current machine. We can check the port opened by a service like `netstat -antp | grep <PID - process ID>` (PID can be obtained using `ps -ef | grep <process name>`). Exp: `ps -ef | grep apache2` -> get PID = 3336 -> `netstat -antp | grep 3336` -> get the information of the TCP with the open-port number
+- `ss -tunlp`: we can check all the TCP open ports in the current machine with PID information.
+- `nmap <target machine>`: show open-ports. Note that we need to install it using `apt install nmap`. This command in some countries is illegal. Use it for troubleshooting only. This is when we are trying to connect two machines together and they are not able to connect because of some issues from some firewall, we can use `nmap` to scan port whether they're open or not.
+- `dig <domain>`: DNS lookup. To check if our DNS resolution from our computer is working or not.
+- `nslookup <domain>`: older version of `dig`
+- `route -n`: show gateways
+- `arp`: used to view or add the content to the kernels ARP table (Hardware address table)
+- `mtr`: similar to `tracert` but live (in watch mode)
+- `telnet <IP Address or Hostname> <port>`: check if a port is open in a machine 
