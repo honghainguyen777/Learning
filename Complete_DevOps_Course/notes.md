@@ -913,3 +913,56 @@ The Internet Assigned Numbers Authority (IANA) maintains the [full list](https:/
 - `arp`: used to view or add the content to the kernels ARP table (Hardware address table)
 - `mtr`: similar to `tracert` but live (in watch mode)
 - `telnet <IP Address or Hostname> <port>`: check if a port is open in a machine 
+
+## Introduction to Containers
+### What are containers
+Containers are a lightweight form of virtualization that allow you to package and run applications and their dependencies in isolated environments called containers. Containers provide a consistent and reproducible way to deploy and manage software across different computing environments, such as development, testing, and production. They have become a popular technology in the world of software development and deployment due to their numerous advantages.
+- Containers offer Isolation and not virtualization. For virtualization we can use Virtual Machine. For understanding we can think containers as OS virtualization.
+
+### Whare is Docker
+Docker is a platform and a set of tools for containerization, a technology that allows you to package and distribute applications and their dependencies as containers. Docker containers are lightweight, portable, and provide a consistent environment for running applications across different systems, such as development laptops, testing servers, and production environments. Docker has played a significant role in popularizing containerization and has become a standard tool in the world of software development and deployment.
+- The isolation and security allows you to run many containers simultaneously on a give host.
+- More at [docs](https://docs.docker.com/get-started/)
+
+### Exercise Example of Docker Containers
+- Check https://docs.docker.com/desktop/install/ubuntu/ to see how to install Ubuntu
+- Create a `Vagrantfile` to automate the installation in a ubuntu virtual machine
+```Vagrantfile
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.network "private_network", ip: "192.168.56.13"
+  config.vm.network "public_network"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"
+  end
+
+  # Before you install Docker Engine for the first time on a new host machine, you need to set up the Docker repository. Afterward, you can install and update Docker from the repository: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+  config.vm.provision "shell", inline: <<-SHELL
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg -y
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+   SHELL
+end
+```
+
+- Now we can check if Docker Application Container Engine is running expectedly in the VM using `systemctl status docker` and then `docker run hello-world`.
+
+#### Command examples
+- `docker run <docker image name>`: to run a docker image, if that images doesn't exist locally, then Docker Engine will fetch it remotely and run the image
+- `docker images`: to check for all the available images in the current system.
+- `docker ps`: check all running containers
+- `docker ps -a`: show all containers
+- `docker run --name <hostname> -d -p <host port>:<container port> <image name>`: `-d` for running in the backgroud; Because docker is isolated and we can't access it from outside. To access, we need to use `-p <host port>:<container port>` for port mapping
+- `docker inspect <container name or ID>`:  To see the information of the container
+- `docker build`: create a docker image
+- `docker stop <container name or ID>`: Stop a running container
+- `docker rm <container name or ID>`: Remove a container
+- `docker rmi <image ID>`: remove a docker image
